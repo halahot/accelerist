@@ -1,12 +1,10 @@
 import React from 'react'
+import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { Tabs } from '../Tabs'
 
-interface Props {
+const Form = (props: RouteComponentProps) => {
     
-}
-
-const Form = (props: Props) => {
     return (
         <Container>
             <h3>Welcome to Accelerist</h3>
