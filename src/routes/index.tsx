@@ -10,39 +10,39 @@ import {
 
 const routes = [
     {
-        path: "/",
-        component: LoginRegistrationScreen,
+        path: "/login",
+        element: () => <LoginRegistrationScreen />,
         exact: true,
     },
     {
-        path: "/dashBoard",
-        component: DashBoardScreen,
+        path: "/",
+        element: () => <DashBoardScreen />,
         exact: true,
     },
     {
         path: "/company/:permalink",
         example: "/company/apple",
-        component: CompanyScreen,
+        element: () => <CompanyScreen />,
         exact: true,
     },
     {
         path: "/search",
-        component: SearchScreen,
+        element: () => <SearchScreen />,
         exact: true,
     },
     {
         path: "/savedSearchScreen",
-        component: SavedSearchScreen,
+        element: () => <SavedSearchScreen />,
         exact: true,
     },
     {
         path: "/accounting",
-        component: AccountingServiceScreen,
+        element: () => <AccountingServiceScreen />,
         exact: true,
     },
     {
         path: "/favorites",
-        component: FavoritesScreen,
+        element: () => <FavoritesScreen />,
         exact: true,
     },
 ];
