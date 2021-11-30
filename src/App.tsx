@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router-dom";
 import './App.css';
-import { LoginRegistrationScreen } from './pages';
+import { DashBoardScreen, LoginRegistrationScreen } from './pages';
 import routes from './routes';
 import { GlobalStyle } from './styles/global';
 
@@ -15,7 +15,7 @@ function App() {
         //     <Route key={route.path} {...route} />
         //   ))}
         // </Routes> */}
-      <LoginRegistrationScreen />
+      <DashBoardScreen />
     </>
   );
 }
