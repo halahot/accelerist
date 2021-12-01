@@ -49,7 +49,7 @@ const Container = styled.div`
     height: 312px;
     background-color: #fff;
     padding: 24px;
-    margin-right: 24px;
+    border-radius: 6px;
 
 `
 

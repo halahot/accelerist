@@ -4,9 +4,7 @@ import { Navigate } from 'react-router-dom'
 import styled from 'styled-components'
 import WithHeader from '../../common/hoc/withHeader'
 import { isAuthorized } from '../../state/ducks/auth'
-import { Logo } from '../LoginRegistration/components'
 import { Favorites } from './components/Favorites'
-import { HeaderLink } from './components/HeaderLink'
 import { Posts } from './components/Posts'
 import ProspectingSessions from './components/ProspectingSessions/ProspectingSessions'
 import { Reports } from './components/Reports'
@@ -24,25 +22,27 @@ const DashBoardScreen = (props: Props) => {
             <Content>
                 <Title>DashBoard</Title>
                 <main>
-                    <ProspectingSessions />
-                    <Row>
-                        <Favorites />
-                        <Reports />
-                    </Row>
-                    <Row>
-                        <span>Prospect Navigator</span>
-                        <SeeMore />
-                    </Row>
-                    <Row>
-                        <Posts />
-                    </Row>
+                    <div className="main">
+                        <ProspectingSessions />
+                        <Row>
+                            <Favorites />
+                            <Reports />
+                        </Row>
+                        {/* <Row>
+                            <span>Prospect Navigator</span>
+                            <SeeMore />
+                        </Row> */}
+                        {/* <Row>
+                            <Posts />
+                        </Row> */}
+                    </div>
                 </main>
             </Content>
         </Container>
     )
 }
 
-export default WithHeader(DashBoardScreen); 
+export default WithHeader(DashBoardScreen);
 
 const Container = styled.div`
     height: 100%;
@@ -58,9 +58,15 @@ const Container = styled.div`
 
 & main {
     background-color: #E8E8E8;
+    padding-left: 60px;
 
 }
+    & div.main {
+        width: fit-content;
+        padding-top: 16px;
+    }
 `
+
 const Content = styled.div`
    display: flex;
    flex-direction: column;
@@ -77,5 +83,6 @@ const Title = styled.h3`
 const Row = styled.div`
     display: flex;
     flex-direction: row;
+    gap: 24px;
 `
 
