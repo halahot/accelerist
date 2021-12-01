@@ -3,6 +3,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { useForm } from "react-hook-form";
 import styled from 'styled-components';
 import { Button } from '../../../../common/components/Button';
+import { LoginFooter } from '../LoginFooter';
+import { RegistrationFooter } from '../RegistrationFooter';
 
 interface Props {
     onSubmit?: (data: FormData) => void;
@@ -14,7 +16,7 @@ type FormData = {
     password: string,
 };
 
-export const Inputs = ({isLogin}: Props) => {
+export const Inputs = ({ isLogin }: Props) => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
     const onSubmit: SubmitHandler<FormData> = data => console.log(data);
@@ -22,11 +24,18 @@ export const Inputs = ({isLogin}: Props) => {
     return (
         <Container>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <input placeholder="Enter email" {...register("email", { required: true })} />
-                {errors.email && <span>This field is required</span>}
-                <input placeholder="Enter password" {...register("password", { required: true })} />
-                {errors.password && <span>This field is required</span>}
-                <Button label={isLogin ? 'Login' : 'Registration'}/>
+                <div className="input">
+                    <Label>Email</Label>
+                    <input placeholder="Enter email" {...register("email", { required: true })} />
+                    {errors.email && <span className="error">This field is required</span>}
+                </div>
+                <div className="input">
+                    <Label>Password</Label>
+                    <input placeholder="Enter password" {...register("password", { required: true })} />
+                    {errors.password && <span className="error">This field is required</span>}
+                </div>
+                {isLogin ? <LoginFooter /> : <RegistrationFooter />}
+                <Button label={isLogin ? 'Login' : 'Registration'} />
             </form>
         </Container>
     )
@@ -38,5 +47,47 @@ const Container = styled.div`
     & form {
         display: flex;
         flex-direction: column;
+        margin-top: 54px;
     }
+
+    & div.input {
+        width: 100%;
+        position: relative;
+        margin-bottom: 24px;
+    }
+
+    & span.error {
+        font-size: 12px;
+        line-height: 150%;
+        color: #F05658;
+    }
+
+    & input {
+        width: 100%;
+        color: #122434;
+        font-size: 16px;
+        line-height: 155%;
+        background: rgb(255, 255, 255);
+        border: 1px solid rgb(232, 232, 232);
+        box-sizing: border-box;
+        border-radius: 8px;
+        padding: 10px 16px;
+        outline: none;
+    }
+
+    & button {
+        font-size: 16px;
+        line-height: 150%;
+        border-radius: 6px;
+        border: 1px solid transparent;
+        transition: all 0.2s ease 0s;
+        padding: 10px 0px;
+        font-weight: 500;
+    }
+`
+    const Label = styled.label`
+        font-size: 12px;
+        line-height: 150%;
+        color: #737373;
+        margin-bottom: 4px;
 `

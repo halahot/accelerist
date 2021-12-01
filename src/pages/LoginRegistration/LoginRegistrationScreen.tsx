@@ -3,19 +3,24 @@ import styled from 'styled-components'
 import { Logo } from './components'
 import img from '../../assets/background.jpg';
 import { Form } from './components';
+import WrapForm from './components/WrapForm/WrapForm';
+//@ts-ignore
+import { useLocation } from 'react-router-dom';
 
 interface Props {
 
 }
 
 export const LoginRegistrationScreen = (props: Props) => {
+    const match = useLocation()
     return (
         <Container>
             <header>
                 <Logo />
             </header>
             <Content>
-                <Form/>
+                <WrapForm/>
+                {console.log(match)}
             </Content>
         </Container>
     )

@@ -1,14 +1,14 @@
 import React from 'react'
-import { RouteComponentProps } from 'react-router-dom'
+// import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { Tabs } from '../Tabs'
 
-const Form = (props: RouteComponentProps) => {
+const Form = ( ) => {
     
     return (
         <Container>
-            <h3>Welcome to Accelerist</h3>
-            <Tabs/>
+            {/* <h3>Welcome to Accelerist</h3>
+            <Tabs/> */}
         </Container>
     )
 }

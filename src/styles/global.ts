@@ -11,16 +11,20 @@ export const GlobalStyle = createGlobalStyle`
 
     body, html {
         height: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
 
     body { 
         position: relative;
         z-index: 0;
     }
+
+    a {
+        text-decoration: none;
+    }
     #root{
         margin:0 auto;
         height: 100%;
-        overflow: hidden;
+        /* overflow: hidden; */
     }
     `

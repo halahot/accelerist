@@ -1,7 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import { Inputs } from '../Inputs';
-import { Tab } from '../Tab';
+import { LoginFooter } from '../LoginFooter';
+import { RegistrationFooter } from '../RegistrationFooter';
 
 interface Props {
 }
@@ -26,8 +27,7 @@ const Tabs = (props: Props) => {
                 <Switch isActive={isActiveRegister} onClick={setRegister}>Register</Switch>
                 <Switch isActive={isActiveLogin} onClick={setLogin}>Login</Switch>
             </Header>
-            <Inputs isLogin={isActiveLogin}/>
-            <Tab></Tab>
+            <Inputs isLogin={isActiveLogin} />
         </Container>
     )
 }

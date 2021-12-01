@@ -15,6 +15,11 @@ const routes = [
         exact: true,
     },
     {
+        path: "/reset",
+        element: () => <LoginRegistrationScreen />,
+        exact: true,
+    },
+    {
         path: "/",
         element: () => <DashBoardScreen />,
         exact: true,
