@@ -1,17 +1,20 @@
 import * as React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 
 export interface IHeaderLinkProps {
-    path: string;
-    title: string;
+  path: string;
+  title: string;
 }
 
-export function HeaderLink ({path, title}: IHeaderLinkProps) {
+export function HeaderLink({ path, title }: IHeaderLinkProps) {
+  const location = useLocation();
+  const isActive = location.pathname === path;
+
   return (
     <div>
-        <CustomLink to={path}>{title}</CustomLink>
-        <Line/>
+      <CustomLink to={path}>{title}</CustomLink>
+      {isActive && <Line />}
     </div>
   );
 }
@@ -21,7 +24,6 @@ const CustomLink = styled(Link)`
 `
 
 const Line = styled.div`
-    width: 61px;
     height: 1px;
     background-color: #122434;
 `

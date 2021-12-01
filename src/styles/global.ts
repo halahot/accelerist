@@ -11,7 +11,6 @@ export const GlobalStyle = createGlobalStyle`
 
     body, html {
         height: 100%;
-        /* overflow: hidden; */
     }
 
     body { 
@@ -25,6 +24,5 @@ export const GlobalStyle = createGlobalStyle`
     #root{
         margin:0 auto;
         height: 100%;
-        /* overflow: hidden; */
     }
     `

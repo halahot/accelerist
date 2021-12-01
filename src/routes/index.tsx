@@ -1,3 +1,4 @@
+import WithHeader from "../common/hoc/withHeader";
 import {
     CompanyScreen,
     DashBoardScreen,

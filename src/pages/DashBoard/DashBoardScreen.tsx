@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { Navigate } from 'react-router-dom'
 import styled from 'styled-components'
+import WithHeader from '../../common/hoc/withHeader'
 import { isAuthorized } from '../../state/ducks/auth'
 import { Logo } from '../LoginRegistration/components'
 import { Favorites } from './components/Favorites'
@@ -20,25 +21,20 @@ const DashBoardScreen = (props: Props) => {
     return (
         <Container>
             {!isAuthorizedUser && <Navigate to="/login" />}
-
-            <header>
-                <Logo />
-                <HeaderLink path="/login" title="DashBoard" />
-            </header>
             <Content>
                 <Title>DashBoard</Title>
                 <main>
                     <ProspectingSessions />
                     <Row>
-                        <Favorites/>
-                        <Reports/>
+                        <Favorites />
+                        <Reports />
                     </Row>
                     <Row>
                         <span>Prospect Navigator</span>
-                        <SeeMore/>
+                        <SeeMore />
                     </Row>
                     <Row>
-                        <Posts/>
+                        <Posts />
                     </Row>
                 </main>
             </Content>
@@ -46,11 +42,11 @@ const DashBoardScreen = (props: Props) => {
     )
 }
 
-export default DashBoardScreen
+export default WithHeader(DashBoardScreen); 
 
 const Container = styled.div`
-height: 100%;
-width: 100%;
+    height: 100%;
+    width: 100%;
 
 & header {
     display: flex;
