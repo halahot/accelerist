@@ -1,10 +1,8 @@
 import React from 'react';
 import {
-  Routes,
-  Route,
+  Route, Routes
 } from "react-router-dom";
 import './App.css';
-import { DashBoardScreen, LoginRegistrationScreen } from './pages';
 import routes from './routes';
 import { GlobalStyle } from './styles/global';
 

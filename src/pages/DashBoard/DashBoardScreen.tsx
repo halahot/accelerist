@@ -1,20 +1,26 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
+import { Navigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { isAuthorized } from '../../state/ducks/auth'
 import { Logo } from '../LoginRegistration/components'
 import { Favorites } from './components/Favorites'
 import { HeaderLink } from './components/HeaderLink'
+import { Posts } from './components/Posts'
 import ProspectingSessions from './components/ProspectingSessions/ProspectingSessions'
 import { Reports } from './components/Reports'
 import { SeeMore } from './components/SeeMore'
-
 interface Props {
 
 }
 
 const DashBoardScreen = (props: Props) => {
+    const isAuthorizedUser = useSelector(isAuthorized);
 
     return (
         <Container>
+            {!isAuthorizedUser && <Navigate to="/login" />}
+
             <header>
                 <Logo />
                 <HeaderLink path="/login" title="DashBoard" />

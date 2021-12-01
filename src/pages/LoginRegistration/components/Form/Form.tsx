@@ -7,8 +7,8 @@ const Form = ( ) => {
     
     return (
         <Container>
-            {/* <h3>Welcome to Accelerist</h3>
-            <Tabs/> */}
+            <h3>Welcome to Accelerist</h3>
+            <Tabs/>
         </Container>
     )
 }

@@ -1,3 +1,4 @@
-import authReducer from './authSlice';
+import { isAuthorized } from './selectors';
+import authReducer, { signIn, signUp } from './authSlice';
 
-export { authReducer }
+export { authReducer, signIn, signUp, isAuthorized }

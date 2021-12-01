@@ -1,26 +1,27 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Logo } from './components'
+import React from 'react';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router-dom';
+import styled from 'styled-components';
 import img from '../../assets/background.jpg';
-import { Form } from './components';
+import { isAuthorized } from '../../state/ducks/auth';
+import { Logo } from './components';
 import WrapForm from './components/WrapForm/WrapForm';
-//@ts-ignore
-import { useLocation } from 'react-router-dom';
 
 interface Props {
 
 }
 
 export const LoginRegistrationScreen = (props: Props) => {
-    const match = useLocation()
+    const isAuthorizedUser = useSelector(isAuthorized);
+    console.log(isAuthorizedUser);
     return (
         <Container>
+            {isAuthorizedUser && <Navigate to="/" />}
             <header>
                 <Logo />
             </header>
             <Content>
                 <WrapForm/>
-                {console.log(match)}
             </Content>
         </Container>
     )

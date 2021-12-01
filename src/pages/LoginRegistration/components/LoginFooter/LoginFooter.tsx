@@ -21,7 +21,7 @@ const LoginFooter = ({ remember }: Props) => {
                 </CheckWrapper>
                 <span>Remember</span>
             </div>
-            <Link href="#">Forgot Password?</Link>
+            <Link href="/reset">Forgot Password?</Link>
         </Container>
     )
 }

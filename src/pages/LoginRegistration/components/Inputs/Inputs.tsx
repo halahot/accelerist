@@ -1,8 +1,10 @@
 import React from 'react'
 import { SubmitHandler } from 'react-hook-form';
 import { useForm } from "react-hook-form";
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Button } from '../../../../common/components/Button';
+import { signIn, signUp } from '../../../../state/ducks/auth';
 import { LoginFooter } from '../LoginFooter';
 import { RegistrationFooter } from '../RegistrationFooter';
 
@@ -18,8 +20,12 @@ type FormData = {
 
 export const Inputs = ({ isLogin }: Props) => {
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const dispatch = useDispatch();
 
-    const onSubmit: SubmitHandler<FormData> = data => console.log(data);
+    const onSubmit: SubmitHandler<FormData> = data => {
+        const func = isLogin ? signIn : signUp;
+        dispatch(func(data));    
+    };
 
     return (
         <Container>
