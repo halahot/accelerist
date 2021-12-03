@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components'
-import CheckBox from '../CheckBox/CheckBox'
+import CheckBox from '../../../../common/icons/CheckBoxIcon/CheckBoxIcon'
 
 interface Props {
     remember?: (isRemember: boolean) => {}

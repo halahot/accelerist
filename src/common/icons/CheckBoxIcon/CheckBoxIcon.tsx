@@ -1,6 +1,6 @@
 import React from "react";
 
-const CheckBox = () => {
+const CheckBoxIcon = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -8,7 +8,6 @@ const CheckBox = () => {
       height="11"
       fill="none"
       className="injected-svg"
-      data-src="/static/media/checkbox.c32cda1b.svg"
       viewBox="0 0 15 11"
     >
       <path
@@ -21,4 +20,4 @@ const CheckBox = () => {
   );
 }
 
-export default CheckBox;
+export default CheckBoxIcon;

@@ -5,6 +5,7 @@ import WithHeader from '../../common/hoc/withHeader';
 import { getToken } from '../../state/ducks/auth';
 import { companies, getCompanies } from '../../state/ducks/company';
 import { FilterData } from '../../types';
+import { Filter } from './components';
 import { SearchInput } from './components/SearchInput';
 import { SearchResult } from './components/SearchResult';
 
@@ -16,6 +17,7 @@ const SearchScreen = (props: Props) => {
     const loadCompanies = useSelector(companies);
     const dispatch = useDispatch();
     const token = useSelector(getToken);
+    const [shownFilter, setShownFilter] = useState(false);
     const [params, setParams] = useState<FilterData>({ limit: 12, page: loadCompanies.currentPage });
 
     useEffect(() => {
@@ -24,17 +26,18 @@ const SearchScreen = (props: Props) => {
             params
         }
         dispatch(getCompanies(data));
-    }, [])
+    }, [params])
 
     return (
         <Container>
             <Title>
                 <Header>
                     <Search>Search</Search>
-                    <SearchInput />
+                    <SearchInput showFilter={() => setShownFilter(!shownFilter)} />
                 </Header>
+                {shownFilter && <Filter closeFilter={() => setShownFilter(false)} setFilter={setParams} />}
             </Title>
-            <Content><SearchResult /></Content>
+            <Content><SearchResult isFilter={Object.keys(params).length > 2} /></Content>
         </Container>
     )
 }
@@ -58,7 +61,7 @@ const Header = styled.div`
     display: flex;
     align-items: center;
     width: 100%;
-    padding: 0px 20px;
+    padding: 0px 60px;
     margin: 0px auto;
     background: rgb(255, 255, 255);
     height: 96px;

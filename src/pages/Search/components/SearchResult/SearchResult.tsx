@@ -7,9 +7,9 @@ import { ArrowIcon, ExcelIcon, MailIcon, SaveIcon } from '../../../../common/ico
 import { getToken } from '../../../../state/ducks/auth';
 import { companies, getCompanies } from '../../../../state/ducks/company';
 import { EmptyFilterModal } from '../EmtyFilterModal';
-import { LikeModal } from '../LikeModal';
 
 export interface ISearchResultProps {
+    isFilter: boolean;
 }
 
 type PagePosition = {
@@ -17,13 +17,14 @@ type PagePosition = {
     end: number
 }
 
-export function SearchResult(props: ISearchResultProps) {
+export function SearchResult({ isFilter }: ISearchResultProps) {
     const loadCompanies = useSelector(companies);
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(loadCompanies.currentPage);
     const [visibleFilterModal, setVisibleFilterModal] = useState(false);
-    const [filter, setFilter] = useState(null);
     const token = useSelector(getToken);
+
+    const { count, currentPage, maxPages } = loadCompanies;
 
     useEffect(() => {
         const params = {
@@ -37,8 +38,7 @@ export function SearchResult(props: ISearchResultProps) {
         dispatch(getCompanies(data));
     }, [page])
 
-    const pagePosition = useMemo(() => {
-        const { currentPage } = loadCompanies;
+    const pagePosition: PagePosition = useMemo(() => {
         const start = currentPage * 12 - 11;
         const end = currentPage * 12;
         return {
@@ -48,14 +48,14 @@ export function SearchResult(props: ISearchResultProps) {
     }, [loadCompanies])
 
     const saveList = () => {
-        if(!filter) {
+        if (!isFilter) {
             setVisibleFilterModal(true);
             return;
         }
     }
 
     const exportToExcel = () => {
-        if(!filter) {
+        if (!isFilter) {
             setVisibleFilterModal(true);
             return;
         }
@@ -74,10 +74,10 @@ export function SearchResult(props: ISearchResultProps) {
 
     return (
         <Container>
-            <Title>{`Found ${loadCompanies.count} companies`}</Title>
+            <Title>{`Found ${count} companies`}</Title>
             <Actions>
                 <Buttons>
-                    <Button onClick={saveList}>
+                    {count > 0 && <> <Button onClick={saveList}>
                         <Icon>
                             <IconWrapper>
                                 <SaveIcon />
@@ -85,14 +85,14 @@ export function SearchResult(props: ISearchResultProps) {
                         </Icon>
                         Save List
                     </Button>
-                    <Button onClick={exportToExcel}>
-                        <Icon>
-                            <IconWrapper>
-                                <ExcelIcon />
-                            </IconWrapper>
-                        </Icon>
-                        Export to Excel
-                    </Button>
+                        <Button onClick={exportToExcel}>
+                            <Icon>
+                                <IconWrapper>
+                                    <ExcelIcon />
+                                </IconWrapper>
+                            </Icon>
+                            Export to Excel
+                        </Button></>}
                     <Button>
                         <Icon>
                             <IconWrapper>
@@ -103,13 +103,13 @@ export function SearchResult(props: ISearchResultProps) {
                     </Button>
                 </Buttons>
                 <Pages>
-                    {loadCompanies.currentPage > 1 &&
+                    {currentPage > 1 &&
                         <button onClick={() => setPage(page - 1)}>
                             <IconWrapper style={{ marginRight: '18px', transform: 'rotate(180deg)' }}><ArrowIcon /></IconWrapper>
                         </button>
                     }
                     <p>{`${pagePosition.start}-${pagePosition.end} of ${loadCompanies.count}`}</p>
-                    {loadCompanies.currentPage !== loadCompanies.maxPages &&
+                    {currentPage !== maxPages &&
                         <button onClick={() => setPage(page + 1)}>
                             <IconWrapper style={{ marginLeft: '18px' }}><ArrowIcon /></IconWrapper>
                         </button>
@@ -119,7 +119,7 @@ export function SearchResult(props: ISearchResultProps) {
             <Organizations>
                 {companyComponents}
             </Organizations>
-            <EmptyFilterModal visible={visibleFilterModal} close={closeEmptyFilterModal}/>
+            <EmptyFilterModal visible={visibleFilterModal} close={closeEmptyFilterModal} />
         </Container>
     );
 }
@@ -127,7 +127,7 @@ export function SearchResult(props: ISearchResultProps) {
 const Container = styled.div`
     width: 100%;
     margin: 0px auto;
-    padding: 32px 20px 20px;
+    padding: 32px 60px 20px;
 
     & button {
         cursor: pointer;

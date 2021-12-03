@@ -9,6 +9,7 @@ import { MailIcon } from "./MailIcon";
 import { RedLike } from "./RedLike";
 import { SaveIcon } from "./SaveIcon";
 import { SearchIcon } from "./SearchIcon";
+import { SelectIcon } from "./SelectIcon";
 
 export {
     SearchIcon,
@@ -21,5 +22,6 @@ export {
     LikeIcon,
     RedLike,
     CannotSavedIcon,
-    BigLikeIcon
+    BigLikeIcon,
+    SelectIcon,
 }

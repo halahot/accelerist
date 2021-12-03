@@ -7,20 +7,21 @@ import { CloseIcon } from '../../../../common/icons/CloseIcon';
 import { FilterIcon } from '../../../../common/icons/FilterIcon';
 
 export interface ISearchInputProps {
+    showFilter: () => void;
 }
 
-export function SearchInput(props: ISearchInputProps) {
+export function SearchInput({ showFilter }: ISearchInputProps) {
     const [value, setValue] = useState('')
     return (
         <Container>
-            <Input placeholder="Search" value={value} onChange={(e: any) => setValue(e.target.value)}/>
+            <Input placeholder="Search" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <Close onClick={() => setValue('')}>
                 <IconWrapper><CloseIcon /></IconWrapper>
             </Close>
             <Search>
                 <IconWrapper><SearchIcon /></IconWrapper>
             </Search>
-            <Button>
+            <Button onClick={showFilter}>
                 <Filter>
                     <IconWrapper><FilterIcon /></IconWrapper>
                 </Filter>

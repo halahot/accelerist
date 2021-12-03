@@ -36,4 +36,13 @@ export const GlobalStyle = createGlobalStyle`
         line-height: 1.15;
         margin: 0px;
     }
+
+    button, ul, li {
+        margin: 0px;
+        padding: 0px;
+        border: 0px;
+        font: inherit;
+        vertical-align: baseline;
+        outline: none;
+    }
     `
