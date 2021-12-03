@@ -13,7 +13,7 @@ export function CloseIcon(props: ICloseIconProps) {
             viewBox="0 0 24 24"
         >
             <path
-                stroke="#122434"
+                stroke="#737373"
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"

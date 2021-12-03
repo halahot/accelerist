@@ -13,7 +13,6 @@ interface Props {
 
 export const LoginRegistrationScreen = (props: Props) => {
     const isAuthorizedUser = useSelector(isAuthorized);
-    console.log(isAuthorizedUser);
     return (
         <Container>
             {isAuthorizedUser && <Navigate to="/" />}

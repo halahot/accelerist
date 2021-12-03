@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { HeaderLink } from '../../pages/DashBoard/components/HeaderLink';
 import { Logo } from '../../pages/LoginRegistration/components';
@@ -13,7 +14,7 @@ function WithHeader<T>(Component: React.ComponentType<T>) {
     return (props: T) => (
         <Container>
             <header>
-                <Logo />
+                <Link to="/"><Logo /></Link>
                 <HeaderLink path="/" title="DashBoard" />
                 <HeaderLink path="/login" title="Audience" />
                 <HeaderLink path="/login" title="Pricing" />

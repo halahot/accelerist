@@ -1,10 +1,12 @@
 import { combineReducers, configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import { authReducer } from './ducks/auth';
-import {persistStore, persistReducer } from 'redux-persist';
+import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
+import { companyReducer } from './ducks/company';
 
 const rootReducer = combineReducers({
   auth: authReducer,
+  company: companyReducer
 });
 
 const customizedMiddleware = getDefaultMiddleware({

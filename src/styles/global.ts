@@ -25,4 +25,15 @@ export const GlobalStyle = createGlobalStyle`
         margin:0 auto;
         height: 100%;
     }
+
+    html, body, *, ::before, ::after {
+        box-sizing: border-box;
+    }
+
+    button, input, optgroup, select, textarea {
+        font-family: inherit;
+        font-size: 100%;
+        line-height: 1.15;
+        margin: 0px;
+    }
     `

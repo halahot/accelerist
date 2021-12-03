@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { FavoritesIcon } from '../FavoritesIcon';
 import { SeeMore } from '../SeeMore';
@@ -7,6 +8,12 @@ export interface IFavoritesProps {
 }
 
 export default function Favorites(props: IFavoritesProps) {
+  const navigate = useNavigate();
+
+  const gotosearch = () => {
+    navigate('/search');
+  }
+
   return (
     <Container>
       <Row style={{ justifyContent: 'space-between', height: '60px' }}>
@@ -17,7 +24,7 @@ export default function Favorites(props: IFavoritesProps) {
         <FavoritesIcon />
         <span className="bold">No favorite company</span>
         <span className="gotosearch">Go to the search page and add to favorites</span>
-        <SearchBtn>Search</SearchBtn>
+        <SearchBtn onClick={gotosearch}>Search</SearchBtn>
       </Column>
     </Container>
   );

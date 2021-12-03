@@ -1,12 +1,11 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { SearchIcon } from '../SearchIcon';
+import { SearchIcon } from '../../icons/SearchIcon';
 
 export interface ISearchInputProps {
 }
 
 export function SearchInput(props: ISearchInputProps) {
-    console.log(123);
     return (
         <Container>
             <input placeholder="Search"/>
