@@ -6,6 +6,8 @@ import { Card, IconWrapper } from '../../../../common/components';
 import { ArrowIcon, ExcelIcon, MailIcon, SaveIcon } from '../../../../common/icons';
 import { getToken } from '../../../../state/ducks/auth';
 import { companies, getCompanies } from '../../../../state/ducks/company';
+import { EmptyFilterModal } from '../EmtyFilterModal';
+import { LikeModal } from '../LikeModal';
 
 export interface ISearchResultProps {
 }
@@ -19,6 +21,8 @@ export function SearchResult(props: ISearchResultProps) {
     const loadCompanies = useSelector(companies);
     const dispatch = useDispatch();
     const [page, setPage] = useState<number>(loadCompanies.currentPage);
+    const [visibleFilterModal, setVisibleFilterModal] = useState(false);
+    const [filter, setFilter] = useState(null);
     const token = useSelector(getToken);
 
     useEffect(() => {
@@ -43,6 +47,28 @@ export function SearchResult(props: ISearchResultProps) {
         }
     }, [loadCompanies])
 
+    const saveList = () => {
+        if(!filter) {
+            setVisibleFilterModal(true);
+            return;
+        }
+    }
+
+    const exportToExcel = () => {
+        if(!filter) {
+            setVisibleFilterModal(true);
+            return;
+        }
+    }
+
+    const sendToSupport = () => {
+
+    }
+
+    const closeEmptyFilterModal = () => {
+        setVisibleFilterModal(false);
+    }
+
     const companyComponents = loadCompanies.company?.map((company) =>
         <Card key={company.id} item={company} />)
 
@@ -51,7 +77,7 @@ export function SearchResult(props: ISearchResultProps) {
             <Title>{`Found ${loadCompanies.count} companies`}</Title>
             <Actions>
                 <Buttons>
-                    <Button>
+                    <Button onClick={saveList}>
                         <Icon>
                             <IconWrapper>
                                 <SaveIcon />
@@ -59,7 +85,7 @@ export function SearchResult(props: ISearchResultProps) {
                         </Icon>
                         Save List
                     </Button>
-                    <Button>
+                    <Button onClick={exportToExcel}>
                         <Icon>
                             <IconWrapper>
                                 <ExcelIcon />
@@ -93,6 +119,7 @@ export function SearchResult(props: ISearchResultProps) {
             <Organizations>
                 {companyComponents}
             </Organizations>
+            <EmptyFilterModal visible={visibleFilterModal} close={closeEmptyFilterModal}/>
         </Container>
     );
 }

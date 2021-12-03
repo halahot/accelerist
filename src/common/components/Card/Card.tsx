@@ -1,7 +1,9 @@
 import * as React from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IconWrapper } from '..';
+import { LikeModal } from '../../../pages/Search/components/LikeModal';
 import { CompanyModel } from '../../../types/models';
 import { LikeIcon, RedLike } from '../../icons';
 import { NoImage } from './components';
@@ -11,7 +13,17 @@ export interface ICardProps {
 }
 
 export function Card(props: ICardProps) {
+    const [visibleModal, setVisibleModal] = useState(false);
     const { name, phone, street, city, state, country, zipCode, revenue, like } = props.item;
+
+    const onClose = () => {
+        setVisibleModal(false);
+    }
+
+    const addToFavorite = () => {
+        setVisibleModal(true);
+    }
+
     return (
         <Container>
             <Left>
@@ -46,12 +58,13 @@ export function Card(props: ICardProps) {
                     </RevenueInfo>
                 </Revenue>
                 <Buttons>
-                    <Like>
+                    <Like onClick={addToFavorite}>
                         <IconWrapper>{like ? <RedLike /> : <LikeIcon />}</IconWrapper>
                     </Like>
                     <ProfileBtn>Profile</ProfileBtn>
                 </Buttons>
             </Right>
+            <LikeModal visible={visibleModal} close={onClose} title={name} />
         </Container>
     );
 }

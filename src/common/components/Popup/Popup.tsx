@@ -22,13 +22,14 @@ const PopupWrapper = styled.div<WrapperProps>`
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    align-items: flex-start;
     justify-content: center;
     top: 0;
     left: 0;
-    background-color: #000000a3;
-    z-index: 20;
     display: ${(props) => props.visible ? "flex" : "none"};
+    inset: 0px;
+    background-color: rgba(0, 0, 0, 0.4);
+    align-items: center;
+    z-index: 10;
 `
 
 

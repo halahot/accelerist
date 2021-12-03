@@ -1,4 +1,6 @@
 import { ArrowIcon } from "./ArrowIcon";
+import { BigLikeIcon } from "./BigLikeIcon";
+import { CannotSavedIcon } from "./CannotSavedIcon";
 import { CloseIcon } from "./CloseIcon";
 import { ExcelIcon } from "./ExcelIcon";
 import { FilterIcon } from "./FilterIcon";
@@ -18,4 +20,6 @@ export {
     ArrowIcon,
     LikeIcon,
     RedLike,
+    CannotSavedIcon,
+    BigLikeIcon
 }
