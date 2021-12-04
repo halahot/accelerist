@@ -12,4 +12,5 @@ export interface FilterData {
     sdgGoals?: string[];
     income?: string[];
     ethnicities?: string[];
+    csrFocusIds?: string[];
 }

@@ -25,6 +25,7 @@ const SearchScreen = (props: Props) => {
             token,
             params
         }
+        console.log(data);
         dispatch(getCompanies(data));
     }, [params])
 
@@ -33,7 +34,7 @@ const SearchScreen = (props: Props) => {
             <Title>
                 <Header>
                     <Search>Search</Search>
-                    <SearchInput showFilter={() => setShownFilter(!shownFilter)} />
+                    <SearchInput setFilter={setParams} showFilter={() => setShownFilter(!shownFilter)} />
                 </Header>
                 {shownFilter && <Filter closeFilter={() => setShownFilter(false)} setFilter={setParams} />}
             </Title>

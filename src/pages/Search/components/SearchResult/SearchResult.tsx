@@ -40,18 +40,23 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
 
     const pagePosition: PagePosition = useMemo(() => {
         const start = currentPage * 12 - 11;
-        const end = currentPage * 12;
+        let end = currentPage * 12;
+        if (end > count) {
+            end = count;
+        }
         return {
             start,
             end
         }
-    }, [loadCompanies])
+    }, [currentPage])
 
     const saveList = () => {
         if (!isFilter) {
             setVisibleFilterModal(true);
             return;
         }
+
+        
     }
 
     const exportToExcel = () => {

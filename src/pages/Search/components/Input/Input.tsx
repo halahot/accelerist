@@ -17,7 +17,7 @@ export function Input({placeholder='Search', value, onChange}: IInputProps) {
 
     return (
         <Container>
-            <input type="text" placeholder={placeholder} value={val}/>
+            <input type="text" placeholder={placeholder} value={val} onChange={onChange}/>
             {value && <IconWrapper style={style} onClick={reset}><CloseIcon /></IconWrapper>}
         </Container>
     );

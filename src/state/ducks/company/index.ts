@@ -1,4 +1,4 @@
-import { companies } from './selectors';
+import { companies, getCurrentPage } from './selectors';
 import companyReducer, { getCompanies } from './companySlice';
 
-export { companyReducer, getCompanies, companies }
+export { companyReducer, getCompanies, companies, getCurrentPage }

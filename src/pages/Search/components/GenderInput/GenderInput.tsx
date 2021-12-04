@@ -1,17 +1,52 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { Item } from './Item';
 
 export interface IGenderInputProps {
+    value?: string;
+    onChange: (v: string) => void;
 }
 
-export function GenderInput (props: IGenderInputProps) {
-  return (
-    <Container>
-        <Item><Button>Male</Button></Item>
-        <Item><Button>Female</Button></Item>
-        <Item><Button>Both</Button></Item>
-    </Container>
-  );
+export type ItemType = {
+    text: string;
+    isActive: boolean;
+}
+
+const items = [
+    {text: 'Male', isActive: false},
+    {text: 'Female', isActive: false},
+    {text: 'Both', isActive: true},
+]
+
+export function GenderInput({ value, onChange }: IGenderInputProps) {
+    console.log('render');
+
+    const [v, setValue] = useState(items);
+
+    useEffect(() => {
+        const arr: ItemType[] = v.filter((v) => v.isActive)
+        onChange(arr[0].text);
+    }, [v])
+
+    const setActive = (id: number) => {
+        console.log(id);
+        // const arr = it
+        items.forEach(v => v.isActive = false)
+        console.log(items);
+        items[id].isActive = true;
+        setValue(items);
+    }
+
+    const components = v.map((item, index) => 
+        <Item key={index} item={item} id={index} setIsActive={setActive}/>
+    )
+
+    return (
+        <Container>
+            {components}
+        </Container>
+    );
 }
 
 const Container = styled.ul`
@@ -21,23 +56,4 @@ const Container = styled.ul`
     display: flex;
     list-style: none;
 
-    & button::focus {
-        outline: none;
-        background-color: #d4f3ff;
-    }
-`
-const Item = styled.li`
-    width: 100%;
-    display: flex;
-    justify-content: center;
-`
-
-const Button = styled.button`
-    height: 36px;
-    width: 100%;
-    border-radius: 6px;
-    font-weight: normal;
-    font-size: 12px;
-    line-height: 150%;
-    color: #737373;
 `

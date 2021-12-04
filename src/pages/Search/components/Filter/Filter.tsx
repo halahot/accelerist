@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { getCurrentPage } from '../../../../state/ducks/company';
 import { FilterData } from '../../../../types';
 import { GenderInput } from '../GenderInput';
 import { Input } from '../Input';
@@ -17,10 +19,17 @@ const income = ['$100K - $124K', '$125K or More', '$20K - $29K', '$30K - $39K', 
 const ages = ['18-20', '21-25', '26-30', '31-35', "36-40", '41-45', '46-50', '51-55', '56-60', '61-65', '66-70', '71-75', '75 +'];
 
 export function Filter({ setFilter, closeFilter }: IFilterProps) {
-    const { handleSubmit, control, reset } = useForm();
+    const { handleSubmit, control } = useForm();
 
-    const onSubmit = (data: FilterData )=> console.log(data);
-    
+    const onSubmit = (data: FilterData) => {
+        const filter = {
+            ...data,
+            limit: 12,
+            page: 1,
+        }
+        setFilter(filter);
+    }
+
     return (
         <Container>
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -34,40 +43,66 @@ export function Filter({ setFilter, closeFilter }: IFilterProps) {
                             <Controller
                                 name="industry"
                                 control={control}
-                                render={({ field }) => <Input value={field.value} />}/>                            
+                                render={({ field }) => <Input value={field.value} onChange={field.onChange} />
+                                } />
                         </Field>
                         <Field>
                             <label>Geographic Location</label>
                             <Controller
                                 name="location"
                                 control={control}
-                                render={({ field }) => <Input value={field.value} />}/>  
+                                render={({ field }) => <Input value={field.value} onChange={field.onChange} />} />
                         </Field>
                     </Row>
                     <Row>
                         <Field>
                             <label>CSR Focus</label>
-                            <SelectInput />
+                            <Controller
+                                name="csrFocusIds"
+                                control={control}
+                                render={({ field }) => <SelectInput value={field.value} onChange={field.onChange} />} />
                         </Field>
                         <Field>
                             <label>Total Annual Contributions</label>
-                            <Input placeholder="Enter total annual contributions"/>
+                            <Controller
+                                name="totalAnnualContributors"
+                                control={control}
+                                render={({ field }) =>
+                                    <Input placeholder="Enter total annual contributions"
+                                        value={field.value}
+                                        onChange={field.onChange} />} />
                         </Field>
                     </Row>
                     <Row>
                         <Field>
                             <label>Min Revenue $</label>
-                            <Input placeholder="Enter min revenue"/>
+                            <Controller
+                                name="revenueMin"
+                                control={control}
+                                render={({ field }) =>
+                                    <Input placeholder="Enter min revenue"
+                                        value={field.value}
+                                        onChange={field.onChange} />} />
                         </Field>
                         <Field>
                             <label>Max Revenue $</label>
-                            <Input placeholder="Enter max revenue"/>
+                            <Controller
+                                name="revenueMax"
+                                control={control}
+                                render={({ field }) =>
+                                    <Input placeholder="Enter max revenue"
+                                        value={field.value}
+                                        onChange={field.onChange} />} />
                         </Field>
                     </Row>
                     <Row>
                         <Field>
                             <label>SDG Goals</label>
-                            <SelectInput options={sdgGoals}/>
+                            <Controller
+                                name="sdgGoals"
+                                control={control}
+                                render={({ field }) =>
+                                    <SelectInput value={field.value} options={sdgGoals} onChange={field.onChange} />} />
                         </Field>
                     </Row>
                 </section>
@@ -76,23 +111,35 @@ export function Filter({ setFilter, closeFilter }: IFilterProps) {
                     <Row>
                         <Field>
                             <label>Gender</label>
-                            <GenderInput/>
+                            <Controller
+                                name="gender"
+                                control={control}
+                                render={({ field }) => <GenderInput value={field.value} onChange={field.onChange} />} />
                         </Field>
                     </Row>
                     <Row>
                         <Field>
                             <label>Household Income</label>
-                            <SelectInput options={income}/>
+                            <Controller
+                                name="income"
+                                control={control}
+                                render={({ field }) => <SelectInput options={income} value={field.value} onChange={field.onChange} />} />
                         </Field>
                         <Field>
                             <label>Ethnicity</label>
-                            <SelectInput options={ethnicities}/>
+                            <Controller
+                                name="ethnicities"
+                                control={control}
+                                render={({ field }) => <SelectInput options={ethnicities} value={field.value} onChange={field.onChange} />} />
                         </Field>
                     </Row>
                     <Row>
                         <Field>
                             <label>Age</label>
-                            <SelectInput options={ages}/>
+                            <Controller
+                                name="ageRanges"
+                                control={control}
+                                render={({ field }) => <SelectInput options={ages} value={field.value} onChange={field.onChange} />} />
                         </Field>
                     </Row>
                 </section>

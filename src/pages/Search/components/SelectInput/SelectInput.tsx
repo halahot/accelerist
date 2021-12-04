@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { IconWrapper } from '../../../../common/components';
 import { CloseIcon, SelectIcon } from '../../../../common/icons';
@@ -7,20 +7,28 @@ import { SelectItem } from './SelectItem';
 
 export interface ISelectInputProps {
     options?: string[];
+    value?: string[];
+    onChange?: (arg: string[]) => void;
 }
 
-export function SelectInput({ options }: ISelectInputProps) {
-    const [value, setValue] = useState<string[]>([]);
+export function SelectInput({ options, value, onChange }: ISelectInputProps) {
+    const [v, setValue] = useState<string[]>([]);
     const [open, setOpen] = useState(false);
 
     const addVal = (val: string, id: number) => {
-        const newVal = value
+        const newVal = v
         newVal?.splice(id, 1, val);
         setValue(newVal);
     }
 
+    useEffect(()=>{
+        if(onChange) {
+            onChange(v);
+        }
+    }, [v])
+
     const removeVal = (id: number) => {
-        const newVal = value;
+        const newVal = v;
         newVal?.splice(id, 1);
         setValue(newVal);
     }
@@ -33,9 +41,9 @@ export function SelectInput({ options }: ISelectInputProps) {
             <div className="dropdown-container">
                 <div className="dropdown-heading" onClick={() => setOpen(!open)}>
                     <div className="dropdown-heading-value">
-                        {value.length > 0 ? <span style={{ color: '#122434' }}>{value.join(', ')}</span> : <span>Select...</span>}
+                        {v.length > 0 ? <span style={{ color: '#122434' }}>{v.join(', ')}</span> : <span>Select...</span>}
                     </div>
-                    {value.length > 0 && <IconWrapper onClick={() => setValue([])}><CloseIcon /></IconWrapper>}
+                    {v.length > 0 && <IconWrapper onClick={() => setValue([])}><CloseIcon /></IconWrapper>}
                     <IconWrapper style={{ paddingLeft: '8px', paddingBottom: '5px' }}>
                         <SelectIcon />
                     </IconWrapper>

@@ -1,24 +1,38 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { IconWrapper } from '../../../../common/components/IconWrapper/IconWrapper';
 import { SearchIcon } from '../../../../common/icons';
 import { CloseIcon } from '../../../../common/icons/CloseIcon';
 import { FilterIcon } from '../../../../common/icons/FilterIcon';
+import { getCurrentPage } from '../../../../state/ducks/company';
+import { FilterData } from '../../../../types';
 
 export interface ISearchInputProps {
     showFilter: () => void;
+    setFilter: (data: FilterData) => void;
 }
 
-export function SearchInput({ showFilter }: ISearchInputProps) {
+export function SearchInput({ showFilter, setFilter }: ISearchInputProps) {
     const [value, setValue] = useState('')
+    
+    const onSubmit = () => {
+        const filter = {
+            q: value,
+            limit: 12,
+            page: 1,
+        }
+        setFilter(filter);
+    }
+
     return (
         <Container>
             <Input placeholder="Search" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <Close onClick={() => setValue('')}>
                 <IconWrapper><CloseIcon /></IconWrapper>
             </Close>
-            <Search>
+            <Search onClick={onSubmit}>
                 <IconWrapper><SearchIcon /></IconWrapper>
             </Search>
             <Button onClick={showFilter}>
