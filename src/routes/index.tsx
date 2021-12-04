@@ -1,12 +1,10 @@
-import WithHeader from "../common/hoc/withHeader";
 import {
-    CompanyScreen,
+    AccountingServiceScreen, CompanyScreen,
     DashBoardScreen,
     FavoritesScreen,
     LoginRegistrationScreen,
     SavedSearchScreen,
-    SearchScreen,
-    AccountingServiceScreen
+    SearchScreen
 } from "../pages";
 
 const routes = [

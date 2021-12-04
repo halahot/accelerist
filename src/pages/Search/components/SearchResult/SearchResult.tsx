@@ -61,9 +61,9 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
         }
     }
 
-    const sendToSupport = () => {
+    // const sendToSupport = () => {
 
-    }
+    // }
 
     const closeEmptyFilterModal = () => {
         setVisibleFilterModal(false);

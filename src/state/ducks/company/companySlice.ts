@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
-import { count } from "console";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FilterPayload } from "../../../types";
 import { CompanyModel } from "../../../types/models";
 import { getCompanyAPI } from "./api";

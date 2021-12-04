@@ -6,8 +6,6 @@ import { Logo } from '../../pages/LoginRegistration/components';
 import { Ava } from '../components/Ava';
 import { SearchInput } from '../components/SearchInput';
 
-interface IWithHeaderProps {
-}
 
 function WithHeader<T>(Component: React.ComponentType<T>) {
 

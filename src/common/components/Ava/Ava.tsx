@@ -8,7 +8,7 @@ export interface IAvaProps {
 export function Ava(props: IAvaProps) {
     return (
         <Container>
-            <img src={logo} />
+            <img alt="logo" src={logo} />
             <span>Noname</span>
         </Container>
     );

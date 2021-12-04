@@ -1,8 +1,6 @@
-import React, { useState } from 'react'
-import styled from 'styled-components'
+import React, { useState } from 'react';
+import styled from 'styled-components';
 import { Inputs } from '../Inputs';
-import { LoginFooter } from '../LoginFooter';
-import { RegistrationFooter } from '../RegistrationFooter';
 
 interface Props {
 }

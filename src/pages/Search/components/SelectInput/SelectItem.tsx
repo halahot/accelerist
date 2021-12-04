@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { Component } from 'react';
 import styled from 'styled-components';
 import { CheckBox } from '../../../../common/components';
 

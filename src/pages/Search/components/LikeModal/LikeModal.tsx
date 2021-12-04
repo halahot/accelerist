@@ -2,7 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 import { IconWrapper, Popup } from '../../../../common/components';
 import { Button } from '../../../../common/components/Button';
-import { BigLikeIcon, CannotSavedIcon } from '../../../../common/icons';
+import { BigLikeIcon } from '../../../../common/icons';
 
 export interface ILikeModalProps {
     visible: boolean;
