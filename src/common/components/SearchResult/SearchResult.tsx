@@ -1,30 +1,33 @@
 import * as React from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { Card, IconWrapper } from '../../../../common/components';
-import { ArrowIcon, ExcelIcon, MailIcon, SaveIcon } from '../../../../common/icons';
-import { getToken } from '../../../../state/ducks/auth';
-import { companies, getCompanies } from '../../../../state/ducks/company';
-import { EmptyFilterModal } from '../EmtyFilterModal';
+import { Card, IconWrapper } from '..';
+import { EmptyFilterModal } from '../../../pages/Search/components/EmtyFilterModal';
+import { NoFavComp } from '../../../pages/Search/components/NoFavComp';
+import { NoResults } from '../../../pages/Search/components/NoResults';
+import { getToken } from '../../../state/ducks/auth';
+import { fetchFavorites, getCompanies, getCurrentPage } from '../../../state/ducks/company';
+import { getCount } from '../../../state/ducks/company/selectors';
+import { CompanyModel } from '../../../types/models';
+import { ExcelIcon, MailIcon, SaveIcon } from '../../icons';
+import { Pages } from './Pages';
 
 export interface ISearchResultProps {
-    isFilter: boolean;
+    isFilter?: boolean;
+    isFavorite?: boolean;
+    companies: CompanyModel[];
 }
 
-type PagePosition = {
-    start: number,
-    end: number
-}
-
-export function SearchResult({ isFilter }: ISearchResultProps) {
-    const loadCompanies = useSelector(companies);
+export function SearchResult({ companies, isFilter, isFavorite }: ISearchResultProps) {
+    const currentPage = useSelector(getCurrentPage);
+    const [page, setPage] = useState<number>(currentPage);
+    const count = useSelector(getCount);
     const dispatch = useDispatch();
-    const [page, setPage] = useState<number>(loadCompanies.currentPage);
+
     const [visibleFilterModal, setVisibleFilterModal] = useState(false);
     const token = useSelector(getToken);
 
-    const { count, currentPage, maxPages } = loadCompanies;
 
     useEffect(() => {
         const params = {
@@ -35,20 +38,10 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
             token,
             params
         }
-        dispatch(getCompanies(data));
-    }, [page])
 
-    const pagePosition: PagePosition = useMemo(() => {
-        const start = currentPage * 12 - 11;
-        let end = currentPage * 12;
-        if (end > count) {
-            end = count;
-        }
-        return {
-            start,
-            end
-        }
-    }, [currentPage])
+        const updateList = isFavorite ? fetchFavorites : getCompanies(data)
+        dispatch(updateList);
+    }, [page])
 
     const saveList = () => {
         if (!isFilter) {
@@ -56,7 +49,7 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
             return;
         }
 
-        
+
     }
 
     const exportToExcel = () => {
@@ -74,14 +67,16 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
         setVisibleFilterModal(false);
     }
 
-    const companyComponents = loadCompanies.company?.map((company) =>
+    const companyComponents = companies?.map((company) =>
         <Card key={company.id} item={company} />)
+
+    const emtyContainer = isFavorite ? <NoFavComp /> : <NoResults />
 
     return (
         <Container>
-            <Title>{`Found ${count} companies`}</Title>
+            {!isFavorite && <Title>{`Found ${count} companies`}</Title>}
             <Actions>
-                <Buttons>
+                {!isFavorite ? <Buttons>
                     {count > 0 && <> <Button onClick={saveList}>
                         <Icon>
                             <IconWrapper>
@@ -106,23 +101,11 @@ export function SearchResult({ isFilter }: ISearchResultProps) {
                         </Icon>
                         Accelerist Support
                     </Button>
-                </Buttons>
-                <Pages>
-                    {currentPage > 1 &&
-                        <button onClick={() => setPage(page - 1)}>
-                            <IconWrapper style={{ marginRight: '18px', transform: 'rotate(180deg)' }}><ArrowIcon /></IconWrapper>
-                        </button>
-                    }
-                    <p>{`${pagePosition.start}-${pagePosition.end} of ${loadCompanies.count}`}</p>
-                    {currentPage !== maxPages &&
-                        <button onClick={() => setPage(page + 1)}>
-                            <IconWrapper style={{ marginLeft: '18px' }}><ArrowIcon /></IconWrapper>
-                        </button>
-                    }
-                </Pages>
+                </Buttons> : <Title>{`Found ${count} companies`}</Title>}
+                {count > 0 && <Pages page={page} setPage={setPage} />}
             </Actions>
             <Organizations>
-                {companyComponents}
+                {companyComponents?.length > 0 ? companyComponents : emtyContainer}
             </Organizations>
             <EmptyFilterModal visible={visibleFilterModal} close={closeEmptyFilterModal} />
         </Container>
@@ -171,17 +154,6 @@ const Button = styled.div`
     line-height: 150%;
     color: #122434;
     cursor: pointer;
-`
-const Pages = styled.div`
-    display: flex;
-    align-items: center;
-
-    & button {
-        padding: 0px;
-        border: 0px;
-        background: 0px center;
-        cursor: pointer;
-    }
 `
 const Organizations = styled.div`
     display: flex;

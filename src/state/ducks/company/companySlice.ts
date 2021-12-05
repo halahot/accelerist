@@ -1,20 +1,23 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FilterPayload } from "../../../types";
+import { LikePayload } from "../../../types/LikePayload";
 import { CompanyModel } from "../../../types/models";
-import { getCompanyAPI } from "./api";
+import { dislikeCompanyAPI, getCompanyAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
 
 interface State {
     company: CompanyModel[]
     count: number;
     currentPage: number;
-    maxPages: number
+    maxPages: number;
+    favorites: CompanyModel[];
 }
 
 const initialState: State = {
     company: [],
     count: 0,
     currentPage: 0,
-    maxPages: 0
+    maxPages: 0,
+    favorites: []
 };
 
 export const getCompanies = createAsyncThunk(
@@ -25,6 +28,31 @@ export const getCompanies = createAsyncThunk(
     }
 )
 
+export const fetchFavorites = createAsyncThunk(
+    'company/getFavorites',
+    async (data: FilterPayload) => {
+        const request = await getFavoritesAPI(data);
+        return request.data;
+    }
+)
+
+export const like = createAsyncThunk(
+    'company/like',
+    async (data: LikePayload) => {
+        const request = await likeCompanyAPI(data);
+        if (request.data) return data.id;
+    }
+)
+
+export const dislike = createAsyncThunk(
+    'company/dislike',
+    async (data: LikePayload) => {
+        const request = await dislikeCompanyAPI(data);
+        if (request.data) return data.id;
+    }
+)
+
+
 const companySlice = createSlice({
     name: 'company',
     initialState: initialState,
@@ -33,9 +61,35 @@ const companySlice = createSlice({
         builder.addCase(getCompanies.fulfilled, (state, action) => {
             const { items, meta } = action.payload;
             state.company = items;
+            state.count = +meta.totalItems;
+            state.currentPage = +meta.currentPage;
+            state.maxPages = +meta.totalPages;
+        })
+        
+        builder.addCase(fetchFavorites.fulfilled, (state, action) => {
+            const { items, meta } = action.payload;
+            state.favorites = items;
             state.count = meta.totalItems;
             state.currentPage = meta.currentPage;
             state.maxPages = meta.totalPages;
+        })
+
+        builder.addCase(like.fulfilled, (state, action) => {
+            if (action.payload) {
+                const index = state.company.findIndex((v) => v.id === action.payload);
+                if (index > -1) {
+                    state.company[index].like = true;
+                }
+            }
+        })
+        
+        builder.addCase(dislike.fulfilled, (state, action) => {
+            if (action.payload) {
+                const index = state.company.findIndex((v) => v.id === action.payload);
+                if (index > -1) {
+                    state.company[index].like = false;
+                }
+            }
         })
 
     }

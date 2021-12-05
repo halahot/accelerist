@@ -6,6 +6,7 @@ import { ExcelIcon } from "./ExcelIcon";
 import { FilterIcon } from "./FilterIcon";
 import { LikeIcon } from "./LikeIcon";
 import { MailIcon } from "./MailIcon";
+import { NoImageIcon } from "./NoImageIcon";
 import { RedLike } from "./RedLike";
 import { SaveIcon } from "./SaveIcon";
 import { SearchIcon } from "./SearchIcon";
@@ -24,4 +25,5 @@ export {
     CannotSavedIcon,
     BigLikeIcon,
     SelectIcon,
+    NoImageIcon,
 }

@@ -58,7 +58,7 @@ const Container = styled.div`
 
 & main {
     background-color: #E8E8E8;
-    padding-left: 60px;
+    padding: 32px 60px 20px;
 
 }
     & div.main {

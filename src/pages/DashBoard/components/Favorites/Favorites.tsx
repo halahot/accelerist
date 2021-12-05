@@ -1,51 +1,45 @@
 import * as React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { FavoritesIcon } from '../FavoritesIcon';
+import { NoFavorites } from '../../../../common/components';
+import { getToken } from '../../../../state/ducks/auth';
+import { fetchFavorites, getFavorites } from '../../../../state/ducks/company';
+import { CompanyModel } from '../../../../types/models';
+import { FavoritesList } from '../FavoritesList';
 import { SeeMore } from '../SeeMore';
 
 export interface IFavoritesProps {
 }
 
 export default function Favorites(props: IFavoritesProps) {
-  const navigate = useNavigate();
+  const favorites: CompanyModel[] = useSelector(getFavorites);
+    const dispatch = useDispatch();
+    const token = useSelector(getToken);
 
-  const gotosearch = () => {
-    navigate('/search');
-  }
+    React.useEffect(() => {
+        const data = {
+            token,
+            params: { limit: 12, page: 1 }
+        }
 
+        dispatch(fetchFavorites(data))
+    }, [])
+  
   return (
     <Container>
       <Row style={{ justifyContent: 'space-between', height: '60px' }}>
         <Title>Prospecting Sessions</Title>
-        <SeeMore />
+        <Link to="/favorites"><SeeMore /></Link>
       </Row>
-      <Column>
-        <FavoritesIcon />
-        <span className="bold">No favorite company</span>
-        <span className="gotosearch">Go to the search page and add to favorites</span>
-        <SearchBtn onClick={gotosearch}>Search</SearchBtn>
-      </Column>
+      {favorites ? <FavoritesList favorites={favorites} /> : <NoFavorites />}
     </Container>
   );
 }
 
 const Container = styled.section`
-    display: flex;
-    flex-direction: column;
-
-    & span.bold {
-        font-size: 16px;
-        font-weight: 500;
-        color: #122434;
-        margin-top: 39px;
-    }
-    
-    & span.gotosearch {
-        font-size: 12px;
-        color: #bfbfbf;
-        margin-top: 8px;
-    }
+    max-width: 536px;
+    width: 100%;
 `
 
 const Title = styled.h3` 
@@ -54,28 +48,8 @@ const Title = styled.h3`
    line-height: 148%;   
 `
 
-const SearchBtn = styled.div`
-    border: 1px solid #2BAEE0;
-    margin-top: 32px;
-    width: 244px;
-    height: 36px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-`
-
 const Row = styled.div`
     display: flex;
     flex-direction: row;
 `
 
-const Column = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: #fff;
-    width: 536px;
-    height: 498px;
-`

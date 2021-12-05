@@ -1,16 +1,15 @@
 import * as React from 'react';
 
-export interface INoImageProps {
+export interface INoImageIconProps {
 }
 
-export function NoImage(props: INoImageProps) {
+export function NoImageIcon(props: INoImageIconProps) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="48"
             height="48"
             fill="none"
-            className="injected-svg"
             viewBox="0 0 48 48"
         >
             <path
@@ -36,7 +35,7 @@ export function NoImage(props: INoImageProps) {
                 strokeWidth="2"
                 rx="1.5"
             ></rect>
-            <mask id="path-25-inside-1-13" fill="#fff">
+            <mask id="path-25-inside-1" fill="#fff">
                 <rect width="11" height="10" x="10" y="38" rx="1.5"></rect>
             </mask>
             <rect
@@ -46,7 +45,7 @@ export function NoImage(props: INoImageProps) {
                 y="38"
                 stroke="#737373"
                 strokeWidth="4"
-                mask="url(#path-25-inside-1-13)"
+                mask="url(#path-25-inside-1)"
                 rx="1.5"
             ></rect>
         </svg>

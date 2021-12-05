@@ -7,7 +7,7 @@ import { companies, getCompanies } from '../../state/ducks/company';
 import { FilterData } from '../../types';
 import { Filter } from './components';
 import { SearchInput } from './components/SearchInput';
-import { SearchResult } from './components/SearchResult';
+import { SearchResult } from '../../common/components';
 
 interface Props {
 
@@ -25,7 +25,6 @@ const SearchScreen = (props: Props) => {
             token,
             params
         }
-        console.log(data);
         dispatch(getCompanies(data));
     }, [params])
 
@@ -38,7 +37,7 @@ const SearchScreen = (props: Props) => {
                 </Header>
                 {shownFilter && <Filter closeFilter={() => setShownFilter(false)} setFilter={setParams} />}
             </Title>
-            <Content><SearchResult isFilter={Object.keys(params).length > 2} /></Content>
+            <Content><SearchResult companies={loadCompanies.company} isFilter={Object.keys(params).length > 2} /></Content>
         </Container>
     )
 }

@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IconWrapper } from '..';
 import { LikeModal } from '../../../pages/Search/components/LikeModal';
+import { getToken } from '../../../state/ducks/auth';
+import { dislike, like as fetchlike } from '../../../state/ducks/company';
 import { CompanyModel } from '../../../types/models';
 import { LikeIcon, RedLike } from '../../icons';
 import { NoImage } from './components';
@@ -14,7 +17,9 @@ export interface ICardProps {
 
 export function Card(props: ICardProps) {
     const [visibleModal, setVisibleModal] = useState(false);
-    const { name, phone, street, city, state, country, zipCode, revenue, like } = props.item;
+    const token = useSelector(getToken);
+    const dispatch = useDispatch();
+    const { id, name, phone, street, city, state, country, zipCode, revenue, like } = props.item;
 
     const onClose = () => {
         setVisibleModal(false);
@@ -22,6 +27,15 @@ export function Card(props: ICardProps) {
 
     const addToFavorite = () => {
         setVisibleModal(true);
+        const data = {
+            token,
+            id
+        }
+        if (like) {
+            dispatch(dislike(data))
+        } else {
+            dispatch(fetchlike(data))
+        }
     }
 
     return (

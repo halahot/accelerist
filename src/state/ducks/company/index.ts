@@ -1,4 +1,13 @@
-import { companies, getCurrentPage } from './selectors';
-import companyReducer, { getCompanies } from './companySlice';
+import { companies, getCurrentPage, getFavorites } from './selectors';
+import companyReducer, { dislike, fetchFavorites, getCompanies, like } from './companySlice';
 
-export { companyReducer, getCompanies, companies, getCurrentPage }
+export {
+    companyReducer, 
+    getCompanies, 
+    companies, 
+    getCurrentPage,
+    like,
+    dislike,
+    getFavorites,
+    fetchFavorites,
+}
