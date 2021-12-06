@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { FilterPayload } from "../../../types";
 import { LikePayload } from "../../../types/LikePayload";
 import { CompanyModel } from "../../../types/models";
-import { dislikeCompanyAPI, getCompanyAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
+import { dislikeCompanyAPI, getCompanyAPI, getCompanyByIdAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
 
 interface State {
     company: CompanyModel[]
@@ -10,6 +10,7 @@ interface State {
     currentPage: number;
     maxPages: number;
     favorites: CompanyModel[];
+    currentCompany: CompanyModel | null;
 }
 
 const initialState: State = {
@@ -17,13 +18,22 @@ const initialState: State = {
     count: 0,
     currentPage: 0,
     maxPages: 0,
-    favorites: []
+    favorites: [],
+    currentCompany: null
 };
 
 export const getCompanies = createAsyncThunk(
     'company/getCompany',
     async (data: FilterPayload) => {
         const request = await getCompanyAPI(data);
+        return request.data;
+    }
+)
+
+export const getCompanyById = createAsyncThunk(
+    'company/getCompanyById',
+    async (data: LikePayload) => {
+        const request = await getCompanyByIdAPI(data);
         return request.data;
     }
 )
@@ -90,6 +100,10 @@ const companySlice = createSlice({
                     state.company[index].like = false;
                 }
             }
+        })
+        
+        builder.addCase(getCompanyById.fulfilled, (state, action) => {
+            state.currentCompany = action.payload;
         })
 
     }

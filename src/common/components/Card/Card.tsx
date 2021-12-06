@@ -53,7 +53,7 @@ export function Card(props: ICardProps) {
             </Left>
             <Right>
                 <Information>
-                    <OrganizationLink to="#">{name}</OrganizationLink>
+                    <OrganizationLink to={`/company/${id}`}>{name}</OrganizationLink>
                     <Address>{`${street ? street : ''} 
                     ${city ? city : ''} 
                     ${state ? state : ''} 

@@ -19,4 +19,5 @@ export interface CompanyModel {
     street: string;
     website: string;
     zipCode: string;
+    ticker: string;
 }

@@ -1,5 +1,5 @@
-import { companies, getCurrentPage, getFavorites } from './selectors';
-import companyReducer, { dislike, fetchFavorites, getCompanies, like } from './companySlice';
+import { companies, getCurrentCompany, getCurrentPage, getFavorites } from './selectors';
+import companyReducer, { dislike, fetchFavorites, getCompanies, getCompanyById, like } from './companySlice';
 
 export {
     companyReducer, 
@@ -10,4 +10,6 @@ export {
     dislike,
     getFavorites,
     fetchFavorites,
+    getCurrentCompany,
+    getCompanyById
 }
