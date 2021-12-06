@@ -1,9 +1,10 @@
 import {
-    AccountingServiceScreen, CompanyScreen,
+    ProspectScreen, 
+    CompanyScreen,
     DashBoardScreen,
     FavoritesScreen,
     LoginRegistrationScreen,
-    SavedSearchScreen,
+    ProspectNavigatorScreen,
     SearchScreen
 } from "../pages";
 
@@ -35,13 +36,13 @@ const routes = [
         exact: true,
     },
     {
-        path: "/savedSearchScreen",
-        element: () => <SavedSearchScreen />,
+        path: "/prospects",
+        element: () => <ProspectNavigatorScreen />,
         exact: true,
     },
     {
-        path: "/accounting",
-        element: () => <AccountingServiceScreen />,
+        path: "/prospects/:permalink",
+        element: () => <ProspectScreen />,
         exact: true,
     },
     {

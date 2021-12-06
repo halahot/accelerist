@@ -4,12 +4,12 @@ interface Props {
     
 }
 
-const SavedSearchScreen = (props: Props) => {
+const ProspectScreen = (props: Props) => {
     return (
         <div>
-            
+           ProspectScreen 
         </div>
     )
 }
 
-export default SavedSearchScreen
+export default ProspectScreen

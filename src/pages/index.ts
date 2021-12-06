@@ -1,17 +1,17 @@
-import { AccountingServiceScreen } from "./AccountingService";
+import { ProspectScreen } from "./Prospect";
 import { CompanyScreen } from "./Company";
 import { DashBoardScreen } from "./DashBoard";
 import { FavoritesScreen } from "./Favorites";
 import { LoginRegistrationScreen } from "./LoginRegistration";
-import { SavedSearchScreen } from "./SavedSearch";
+import { ProspectNavigatorScreen } from "./ProspectNavigator";
 import { SearchScreen } from "./Search";
 
 export { 
     LoginRegistrationScreen,
-    AccountingServiceScreen,
+    ProspectScreen,
     CompanyScreen,
     DashBoardScreen,
     FavoritesScreen,
     SearchScreen,
-    SavedSearchScreen 
+    ProspectNavigatorScreen 
 }
