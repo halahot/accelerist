@@ -3,10 +3,12 @@ import { authReducer } from './ducks/auth';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
 import { companyReducer } from './ducks/company';
+import { savedSearchReducer } from './ducks/savedList';
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  company: companyReducer
+  company: companyReducer,
+  lists: savedSearchReducer,
 });
 
 const customizedMiddleware = getDefaultMiddleware({
