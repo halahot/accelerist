@@ -1,6 +1,6 @@
-import { SavedListModel } from './../../../types/models/SavedListModel';
+import { SavedListModel } from '../../../types/models/SavedListModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SavedListRequest } from './../../../types';
+import { SavedListRequest } from '../../../types';
 import { createListAPI, getListAPI } from "./api";
 
 interface State {

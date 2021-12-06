@@ -1,5 +1,5 @@
 import { getActiveList, getLists } from './selectors';
-import savedSearchReducer, { createList, getList } from './authSlice';
+import savedSearchReducer, { createList, getList } from './savedListSlice';
 
 export {
     savedSearchReducer,

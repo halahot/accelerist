@@ -1,6 +1,10 @@
 import * as React from 'react';
+import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { ProspectingSession } from '../ProspectingSession';
+import { ProspectingSession } from '../../../../common/components/ProspectingSession';
+import { getLists } from '../../../../state/ducks/savedList';
+import { EmptyProspectingSessions } from '../EmptyProspectingSessions';
 import { SeeMore } from '../SeeMore';
 
 
@@ -8,16 +12,19 @@ export interface IProspectingSessionsProps {
 }
 
 export default function ProspectingSessions(props: IProspectingSessionsProps) {
+    const prospectingSessions = useSelector(getLists);
+
     return (
         <Container>
-            <Row style={{ justifyContent: 'space-between', height: '60px'}}>
+            <Row style={{ justifyContent: 'space-between', height: '60px' }}>
                 <Title>Prospecting Sessions</Title>
-                <SeeMore />
+                <Link to="/prospects"><SeeMore /></Link>
             </Row>
-            <Row style={{gap: '24px'}}>
-                <ProspectingSession />
-                <ProspectingSession />
-            </Row>
+            {prospectingSessions.length > 0 ?
+                <Row style={{ gap: '24px' }}>
+
+                </Row> :
+                <EmptyProspectingSessions />}
         </Container>
     );
 }

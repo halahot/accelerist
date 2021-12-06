@@ -1,6 +1,6 @@
 import { SavedList } from "./SavedList";
 
 export interface SavedListRequest {
-    token: string;
+    token: string | null;
     data?: SavedList;
 }

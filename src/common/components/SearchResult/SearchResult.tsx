@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { Card, IconWrapper } from '..';
 import { EmptyFilterModal } from '../../../pages/Search/components/EmtyFilterModal';
@@ -9,6 +10,8 @@ import { NoResults } from '../../../pages/Search/components/NoResults';
 import { getToken } from '../../../state/ducks/auth';
 import { fetchFavorites, getCompanies, getCurrentPage } from '../../../state/ducks/company';
 import { getCount } from '../../../state/ducks/company/selectors';
+import { createList, getActiveList } from '../../../state/ducks/savedList';
+import { FilterData, SavedListRequest } from '../../../types';
 import { CompanyModel } from '../../../types/models';
 import { ExcelIcon, MailIcon, SaveIcon } from '../../icons';
 import { Pages } from './Pages';
@@ -16,14 +19,17 @@ import { Pages } from './Pages';
 export interface ISearchResultProps {
     isFilter?: boolean;
     isFavorite?: boolean;
+    filter?: FilterData; 
     companies: CompanyModel[];
 }
 
-export function SearchResult({ companies, isFilter, isFavorite }: ISearchResultProps) {
+export function SearchResult({filter, companies, isFilter, isFavorite }: ISearchResultProps) {
     const currentPage = useSelector(getCurrentPage);
+    const currentSearch = useSelector(getActiveList)
     const [page, setPage] = useState<number>(currentPage);
     const count = useSelector(getCount);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const [visibleFilterModal, setVisibleFilterModal] = useState(false);
     const token = useSelector(getToken);
@@ -43,13 +49,25 @@ export function SearchResult({ companies, isFilter, isFavorite }: ISearchResultP
         dispatch(updateList);
     }, [page])
 
-    const saveList = () => {
+    const saveList = async () => {
         if (!isFilter) {
             setVisibleFilterModal(true);
             return;
         }
 
+        delete filter?.limit
+        delete filter?.page
 
+        const data: SavedListRequest = {
+            token,
+            data: { 
+                prospectsAvailable: 100,
+                filters: filter
+            }
+        }
+
+        await dispatch(createList(data));
+        navigate(`{/prospects/${currentSearch?.id}}`);
     }
 
     const exportToExcel = () => {

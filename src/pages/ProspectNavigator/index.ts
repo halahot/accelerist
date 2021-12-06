@@ -1,3 +1,3 @@
-import ProspectNavigatorScreen from "./ProspectScreen";
+import ProspectNavigatorScreen from "./ProspectNavigatorScreen";
 
 export { ProspectNavigatorScreen }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
-import { Filter } from '../Filter';
+import { Filter } from '../../../pages/DashBoard/components/Filter';
 import ava from '../../../../assets/ava.png';
 
 export interface IProspectingSessionProps {

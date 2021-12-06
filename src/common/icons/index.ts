@@ -4,6 +4,7 @@ import { CannotSavedIcon } from "./CannotSavedIcon";
 import { CloseIcon } from "./CloseIcon";
 import { ExcelIcon } from "./ExcelIcon";
 import { FilterIcon } from "./FilterIcon";
+import { FolderPlusIcon } from "./FolderPlusIcon";
 import { GlobeIcon } from "./GlobeIcon.tsx";
 import { LikeIcon } from "./LikeIcon";
 import { MailIcon } from "./MailIcon";
@@ -32,4 +33,5 @@ export {
     MapIcon,
     PhoneIcon,
     GlobeIcon,
+    FolderPlusIcon
 }

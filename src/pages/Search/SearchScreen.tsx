@@ -37,7 +37,7 @@ const SearchScreen = (props: Props) => {
                 </Header>
                 {shownFilter && <Filter closeFilter={() => setShownFilter(false)} setFilter={setParams} />}
             </Title>
-            <Content><SearchResult companies={loadCompanies.company} isFilter={Object.keys(params).length > 2} /></Content>
+            <Content><SearchResult filter={params} companies={loadCompanies.company} isFilter={Object.keys(params).length > 2} /></Content>
         </Container>
     )
 }

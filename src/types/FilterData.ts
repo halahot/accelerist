@@ -1,6 +1,6 @@
 export interface FilterData {
-    limit: number;
-    page: number;
+    limit?: number;
+    page?: number;
     q?: string;
     location?: string
     revenueMin?: number;
