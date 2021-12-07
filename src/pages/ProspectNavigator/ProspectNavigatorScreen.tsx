@@ -1,10 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import withHeader from '../../common/hoc/withHeader'
+import withHeader from '../../common/hoc/withHeader';
 import { getLists } from '../../state/ducks/savedList';
 import { EmptyProspectingSessions } from '../DashBoard/components/EmptyProspectingSessions';
-import { NoFavComp } from '../Search/components/NoFavComp';
 
 interface Props {
 

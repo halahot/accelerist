@@ -1,10 +1,13 @@
 import { getActiveList, getLists } from './selectors';
-import savedSearchReducer, { createList, getList } from './savedListSlice';
+import savedSearchReducer, { createList, deleteList, getList, getListById, updateList } from './savedListSlice';
 
 export {
     savedSearchReducer,
     createList,
     getList,
     getActiveList,
-    getLists
+    getLists,
+    updateList,
+    deleteList,
+    getListById
 }

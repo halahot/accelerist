@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IconWrapper } from '..';
+import { CheckBox, IconWrapper } from '..';
 import { LikeModal } from '../../../pages/Search/components/LikeModal';
 import { getToken } from '../../../state/ducks/auth';
 import { dislike, like as fetchlike } from '../../../state/ducks/company';
@@ -13,6 +13,8 @@ import { NoImage } from './components';
 
 export interface ICardProps {
     item: CompanyModel
+    isEdit?: boolean;
+    setIsDelete?: (v: boolean, id: string) => void;
 }
 
 export function Card(props: ICardProps) {
@@ -38,8 +40,13 @@ export function Card(props: ICardProps) {
         }
     }
 
+    const onChange = (v: boolean) => {
+        if(props.setIsDelete) props.setIsDelete(v, id);
+    }
+
     return (
         <Container>
+            {props.isEdit && <CheckBox style={style} onChange={onChange}/>}
             <Left>
                 <ImageWrap>
                     <IconWrapper>
@@ -246,3 +253,9 @@ const Like = styled.button`
     background-color: rgb(255, 255, 255);
     border: 1px solid rgb(232, 232, 232);    
 `
+
+const style = {
+    position: 'absolute',
+    right: '8px',
+    top: '8px',
+}

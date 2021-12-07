@@ -34,9 +34,6 @@ export function Pages({ page, setPage }: Props) {
         }
     }, [count])
 
-    console.log(page);
-    console.log(maxPages);
-
     return (
         <Container>
             {page > 1 &&

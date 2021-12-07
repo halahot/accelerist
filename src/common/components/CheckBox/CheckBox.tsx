@@ -5,6 +5,7 @@ import { CheckBoxIcon } from '../../icons/CheckBoxIcon';
 
 export interface ICheckBoxProps {
     onChange: (checked: boolean) => void;
+    style?: any;
 }
 
 export function CheckBox(props: ICheckBoxProps) {
@@ -15,7 +16,7 @@ export function CheckBox(props: ICheckBoxProps) {
         props.onChange(!isChecked);
     }
     return (
-        <CheckWrapper isCheck={isChecked} onClick={onCheck}>
+        <CheckWrapper style={props.style} isCheck={isChecked} onClick={onCheck}>
             {isChecked && <CheckBoxIcon />}
         </CheckWrapper>
     );

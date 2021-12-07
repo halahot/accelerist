@@ -6,3 +6,4 @@ export const getCurrentPage = (state: RootState) => state.company.currentPage;
 export const getCount = (state: RootState) => state.company.count;
 export const getMaxPages = (state: RootState) => state.company.maxPages;
 export const getFavorites = (state: RootState) => state.company.favorites;
+export const excel = (state: RootState) => state.company.excel;

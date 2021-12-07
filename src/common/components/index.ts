@@ -5,6 +5,7 @@ import { NoFavorites } from "./NoFavorites";
 import { Popup } from "./Popup/Popup";
 import { SearchBtn } from "./SearchBtn";
 import { SearchResult } from "./SearchResult";
+import { Tags } from "./Tags";
 
 export {
     Popup,
@@ -13,5 +14,6 @@ export {
     CheckBox,
     NoFavorites,
     SearchResult,
-    SearchBtn
+    SearchBtn,
+    Tags
 }

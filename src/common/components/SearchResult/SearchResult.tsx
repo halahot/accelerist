@@ -3,12 +3,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import styled from 'styled-components';
-import { Card, IconWrapper } from '..';
+import { Card, IconWrapper, Tags } from '..';
 import { EmptyFilterModal } from '../../../pages/Search/components/EmtyFilterModal';
 import { NoFavComp } from '../../../pages/Search/components/NoFavComp';
 import { NoResults } from '../../../pages/Search/components/NoResults';
 import { getToken } from '../../../state/ducks/auth';
-import { fetchFavorites, getCompanies, getCurrentPage } from '../../../state/ducks/company';
+import { fetchFavorites, getCompanies, getCurrentPage, getExcel } from '../../../state/ducks/company';
 import { getCount } from '../../../state/ducks/company/selectors';
 import { createList, getActiveList } from '../../../state/ducks/savedList';
 import { FilterData, SavedListRequest } from '../../../types';
@@ -18,24 +18,36 @@ import { Pages } from './Pages';
 
 export interface ISearchResultProps {
     isFilter?: boolean;
+    isSavedSearch?: boolean;
     isFavorite?: boolean;
-    filter?: FilterData; 
+    filter?: FilterData;
     companies: CompanyModel[];
+    isEditMode?: boolean;
+    updateFilter?: (ids: string[]) => void;
+    excel?: () => void;
 }
 
-export function SearchResult({filter, companies, isFilter, isFavorite }: ISearchResultProps) {
+export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch, isFavorite, isEditMode, updateFilter }: ISearchResultProps) {
     const currentPage = useSelector(getCurrentPage);
+    const list = useSelector(getActiveList);
     const currentSearch = useSelector(getActiveList)
     const [page, setPage] = useState<number>(currentPage);
+    const [ids, setIds] = useState(list?.filters.deleteIds);
     const count = useSelector(getCount);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
 
     const [visibleFilterModal, setVisibleFilterModal] = useState(false);
     const token = useSelector(getToken);
 
 
     useEffect(() => {
+
+        if (isSavedSearch) {
+            return;
+        }
+
         const params = {
             limit: 12,
             page
@@ -60,17 +72,22 @@ export function SearchResult({filter, companies, isFilter, isFavorite }: ISearch
 
         const data: SavedListRequest = {
             token,
-            data: { 
-                prospectsAvailable: 100,
+            data: {
+                prospectsAvailable: count,
                 filters: filter
             }
         }
 
         await dispatch(createList(data));
-        navigate(`{/prospects/${currentSearch?.id}}`);
+        const path = `/prospects/${currentSearch?.id}`;
+        navigate(path);
     }
 
-    const exportToExcel = () => {
+    const exportToExcel = async () => {
+        if((isSavedSearch || isFilter) && excel) {
+            excel();
+            return;
+        }
         if (!isFilter) {
             setVisibleFilterModal(true);
             return;
@@ -85,24 +102,43 @@ export function SearchResult({filter, companies, isFilter, isFavorite }: ISearch
         setVisibleFilterModal(false);
     }
 
+    const setFilterIds = (isAdded: boolean, id: string) => {
+
+        let newids = ids ? ids : [];
+        if (isAdded) {
+            newids.push(id)
+        } else {
+            const index = newids.findIndex((v) => v === id);
+            if (index > -1) {
+                newids.splice(index, 1);
+            }
+        }
+
+        setIds(newids);
+        if (updateFilter) {
+            updateFilter(newids);
+        }
+    }
+
     const companyComponents = companies?.map((company) =>
-        <Card key={company.id} item={company} />)
+        <Card key={company.id} item={company} setIsDelete={setFilterIds} isEdit={isEditMode} />)
 
     const emtyContainer = isFavorite ? <NoFavComp /> : <NoResults />
 
     return (
         <Container>
-            {!isFavorite && <Title>{`Found ${count} companies`}</Title>}
+            {!isFavorite && <Title>{isSavedSearch ? `${count} companies` : `Found ${count} companies`}</Title>}
+            {isSavedSearch && <Tags filter={filter} />}
             <Actions>
                 {!isFavorite ? <Buttons>
-                    {count > 0 && <> <Button onClick={saveList}>
+                    {count > 0 && <> {!isSavedSearch && <Button onClick={saveList}>
                         <Icon>
                             <IconWrapper>
                                 <SaveIcon />
                             </IconWrapper>
                         </Icon>
                         Save List
-                    </Button>
+                    </Button>}
                         <Button onClick={exportToExcel}>
                             <Icon>
                                 <IconWrapper>
@@ -111,14 +147,22 @@ export function SearchResult({filter, companies, isFilter, isFavorite }: ISearch
                             </Icon>
                             Export to Excel
                         </Button></>}
-                    <Button>
+                    {!isSavedSearch && <Button>
                         <Icon>
                             <IconWrapper>
                                 <MailIcon />
                             </IconWrapper>
                         </Icon>
                         Accelerist Support
-                    </Button>
+                    </Button>}
+                    {ids && ids.length > 0 && <Button>
+                        <Icon>
+                            <IconWrapper>
+                                <MailIcon />
+                            </IconWrapper>
+                        </Icon>
+                        Delete
+                    </Button>}
                 </Buttons> : <Title>{`Found ${count} companies`}</Title>}
                 {count > 0 && <Pages page={page} setPage={setPage} />}
             </Actions>

@@ -13,4 +13,5 @@ export interface FilterData {
     income?: string[];
     ethnicities?: string[];
     csrFocusIds?: string[];
+    deleteIds?: string[];
 }

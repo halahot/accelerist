@@ -17,6 +17,13 @@ export const getFavoritesAPI = async ({token, params}: FilterPayload) => {
     );
 }
 
+export const exportCompanyAPI = async ({token, params}: FilterPayload) => {
+    API.defaults.headers.common = {'Authorization': `Bearer ${token}`}
+    return await API.get(
+        '/api/v1/companies/excel', { params }
+    );
+}
+
 export const getCompanyByIdAPI = async ({token, id}: LikePayload) => {
     API.defaults.headers.common = {'Authorization': `Bearer ${token}`}
     return await API.get(

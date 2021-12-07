@@ -1,8 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FilterPayload } from "../../../types";
+import { ExcelResponse } from "../../../types/ExcelResponse";
 import { LikePayload } from "../../../types/LikePayload";
 import { CompanyModel } from "../../../types/models";
-import { dislikeCompanyAPI, getCompanyAPI, getCompanyByIdAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
+import { dislikeCompanyAPI, exportCompanyAPI, getCompanyAPI, getCompanyByIdAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
 
 interface State {
     company: CompanyModel[]
@@ -11,6 +12,7 @@ interface State {
     maxPages: number;
     favorites: CompanyModel[];
     currentCompany: CompanyModel | null;
+    excel?: ExcelResponse;
 }
 
 const initialState: State = {
@@ -62,6 +64,14 @@ export const dislike = createAsyncThunk(
     }
 )
 
+export const getExcel = createAsyncThunk(
+    'company/excel',
+    async (data: FilterPayload) => {
+        const request = await exportCompanyAPI(data);
+        return request.data;
+    }
+)
+
 
 const companySlice = createSlice({
     name: 'company',
@@ -104,6 +114,10 @@ const companySlice = createSlice({
         
         builder.addCase(getCompanyById.fulfilled, (state, action) => {
             state.currentCompany = action.payload;
+        })
+        
+        builder.addCase(getExcel.fulfilled, (state, action) => {
+            state.excel = action.payload;
         })
 
     }
