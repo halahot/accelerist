@@ -16,14 +16,16 @@ export interface ISearchInputProps {
 
 export function SearchInput({ showFilter, setFilter }: ISearchInputProps) {
     const [value, setValue] = useState('')
-    
+
     const onSubmit = () => {
-        const filter = {
-            q: value,
-            limit: 12,
-            page: 1,
+        if (value.trim()) {
+            const filter = {
+                q: value,
+                limit: 12,
+                page: 1,
+            }
+            setFilter(filter);
         }
-        setFilter(filter);
     }
 
     return (
