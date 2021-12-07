@@ -59,7 +59,7 @@ const savedListSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getList.fulfilled, (state, action) => {
-            state.lists = action.payload;
+            state.lists = action.payload.items;
         })
 
         builder.addCase(createList.fulfilled, (state, action) => {

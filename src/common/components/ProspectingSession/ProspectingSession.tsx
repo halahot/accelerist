@@ -1,26 +1,24 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { Tags } from '..';
 import { Filter } from '../../../pages/DashBoard/components/Filter';
-import ava from '../../../../assets/ava.png';
+import { SavedListModel } from '../../../types/models';
 
 export interface IProspectingSessionProps {
+    item: SavedListModel;
 }
 
-export default function ProspectingSession(props: IProspectingSessionProps) {
+export default function ProspectingSession({ item }: IProspectingSessionProps) {
+    const { name, filters, prospectsAvailable } = item;
     return (
         <Container>
-            <h4>Race for the Cure</h4>
+            <h4>{name ? name : 'No name'}</h4>
             <Line />
-            <span>Filters</span>
-            <Row>
-                <Filter text="Travel Industry" />
-                <Filter text="$500-$1B" />
-                <Filter text="National" />
-            </Row>
+            <Tags filter={filters} />
             <Row style={{ justifyContent: "space-between" }}>
                 <Card>
                     <span className="number">№ of Prospects Available</span>
-                    <span className="digit">230</span>
+                    <span className="digit">{prospectsAvailable}</span>
                 </Card>
                 <Card>
                     <span className="number">№ of Contacts Pursued</span>
@@ -29,9 +27,9 @@ export default function ProspectingSession(props: IProspectingSessionProps) {
             </Row>
             <Row style={{ justifyContent: "space-between" }}>
                 <Row>
-                    <img src={ava} />
+                    <Ava><span>NN</span></Ava>
                     <Column>
-                        <span className="author">Jenny Wilson</span>
+                        <span className="author">No name</span>
                         <span className="number">owner</span>
                     </Column>
                 </Row>
@@ -44,7 +42,7 @@ export default function ProspectingSession(props: IProspectingSessionProps) {
     );
 }
 
-const Container = styled.div`
+const Container = styled.section`
     width: 536px;
     height: 312px;
     background-color: #fff;
@@ -104,5 +102,18 @@ const Card = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 24px 0;
+    margin-bottom: 24px;
+`
+
+const Ava = styled.div`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    background-color: blue;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 100%;
+    margin-right: 15px;
 `
