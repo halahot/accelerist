@@ -8,8 +8,8 @@ export interface ITagsProps {
 
 export function Tags({ filter }: ITagsProps) {
 
-    const elements = filter && Object.values(filter).map((value) => {
-        return <li> {value}</li>
+    const elements = filter && Object.values(filter).map((value, index) => {
+        return <li key={index}>{value}</li>
     })
 
     return (

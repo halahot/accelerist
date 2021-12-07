@@ -1,15 +1,21 @@
 import * as React from 'react';
 import styled from 'styled-components';
 import { Tags } from '..';
-import { Filter } from '../../../pages/DashBoard/components/Filter';
 import { SavedListModel } from '../../../types/models';
+import moment from 'moment';
+import { useLocation } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { useDispatch } from 'react-redux';
+import { getList } from '../../../state/ducks/savedList';
 
 export interface IProspectingSessionProps {
     item: SavedListModel;
 }
 
 export default function ProspectingSession({ item }: IProspectingSessionProps) {
-    const { name, filters, prospectsAvailable } = item;
+    const { name, filters, prospectsAvailable, updateAt } = item;
+    
+    let formattedDate = (moment(updateAt)).format('DD MMM YYYY')
     return (
         <Container>
             <h4>{name ? name : 'No name'}</h4>
@@ -35,7 +41,7 @@ export default function ProspectingSession({ item }: IProspectingSessionProps) {
                 </Row>
                 <Column>
                     <span className="number">Last activity</span>
-                    <span>1 Jul 2020</span>
+                    <span className="number black">{formattedDate}</span>
                 </Column>
             </Row>
         </Container>
@@ -47,6 +53,7 @@ const Container = styled.section`
     height: 312px;
     background-color: #fff;
     padding: 24px;
+    margin: 12px;
     border-radius: 6px;
 
 `
@@ -92,6 +99,10 @@ const Row = styled.div`
 const Column = styled.div`
     display: flex;
     flex-direction: column;
+
+    span.black{
+        color: #122434;
+    }
 `
 const Card = styled.div`
     width: 235px;

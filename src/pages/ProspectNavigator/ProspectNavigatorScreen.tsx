@@ -1,8 +1,11 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
+import { ProspectingSession } from '../../common/components';
 import withHeader from '../../common/hoc/withHeader';
-import { getLists } from '../../state/ducks/savedList';
+import { getToken } from '../../state/ducks/auth';
+import { getList, getLists } from '../../state/ducks/savedList';
 import { EmptyProspectingSessions } from '../DashBoard/components/EmptyProspectingSessions';
 
 interface Props {
@@ -11,7 +14,30 @@ interface Props {
 
 const ProspectNavigatorScreen = (props: Props) => {
     const prospectingSessions = useSelector(getLists);
+    const token = useSelector(getToken);
+    const dispatch = useDispatch();
 
+    const elements = prospectingSessions.map((item) =>
+        <ProspectingSession key={item.id} item={item} />
+    )
+
+    let query = useLocation();
+    const sort = useMemo(() => {
+        const parts = query.search.split('=');
+        return parts[parts.length - 1];
+    }, [query])
+
+    useEffect(() => {
+        const params = {
+            page: 1,
+            limit: 12,
+            sort
+        }
+        dispatch(getList({ token, params }))
+    }, [])
+
+
+    const render = prospectingSessions.length > 0 ? <>{elements}</> : <EmptyProspectingSessions />
     return (
         <>
             <Title>
@@ -21,18 +47,19 @@ const ProspectNavigatorScreen = (props: Props) => {
                 <div className="content">
                     <div className="subtitle">
                         <div className="header">
+                            <p className="sort">Sort by</p>
                             <ul>
-                                <li>Sort by</li>
-                                <li>Alphabet</li>
-                                <li>Prospects Available</li>
-                                <li>Last Activity</li>
+                                <li><Link className={sort === 'alphabet' ? 'active' : ''} to="/prospects?sort=alphabet">Alphabet</Link></li>
+                                <li><Link className={sort === 'available' ? 'active' : ''} to="/prospects?sort=available">Prospects Available</Link></li>
+                                <li><Link className={sort === 'last-activity' ? 'active' : ''} to="/prospects?sort=last-activity">Last Activity</Link></li>
                             </ul>
                         </div>
                     </div>
-                    
-                        <Area>
-                        {prospectingSessions.length > 0 ? <h2>list</h2> : <EmptyProspectingSessions />}
-                        </Area> 
+
+                    <Area>
+                        {/* { elements } */}
+                        {render}
+                    </Area>
                 </div>
             </Content>
         </>
@@ -81,6 +108,33 @@ const Content = styled.div`
         background-color: transparent;
     }
     
+    div.subtitle li {
+        font-size: 12px;
+        line-height: 150%;
+    }
+    
+    a.active::after {
+        content: "";
+        height: 2px;
+        background: #2BAEE0;
+        display: block;
+        margin-top: 2px;
+        transition: background 0.5s ease 0s;
+    } 
+    
+    a:after {
+        content: "";
+        height: 2px;
+        background: transparent;
+        display: block;
+        margin-top: 2px;
+        transition: background 0.5s ease 0s;
+    }
+
+    a {
+        color: #122434;
+    }
+    
     div.subtitle li:not(:last-child) {
         margin-right: 22px;
     }
@@ -88,14 +142,18 @@ const Content = styled.div`
     & div.header {
         display: flex;
     }
+
+    p.sort {
+        font-size: 12px;
+        line-height: 150%;
+        color: #737373;
+        margin-right: 26px;
+        cursor: default;
+    }
 `
 const Area = styled.div`
-    height: calc(100vh - 280px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    background: rgb(255, 255, 255);
-    border-radius: 6px;
+   display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    margin: -12px -12px 0px;
 `

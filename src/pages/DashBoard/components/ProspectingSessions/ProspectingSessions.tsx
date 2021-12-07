@@ -23,7 +23,8 @@ export default function ProspectingSessions(props: IProspectingSessionsProps) {
     useEffect(() => {
         const params = {
             page: 1,
-            limit: 12
+            limit: 12,
+            sort: 'alphabet'
         }
         dispatch(getList({ token, params }))
     }, [])
