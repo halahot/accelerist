@@ -9,9 +9,8 @@ export interface ITagsProps {
 export function Tags({ filter }: ITagsProps) {
 
     const elements = filter && Object.values(filter).map((value, index) => {
-        if(value.trim()) {
-            return <li key={index}>{value}</li>
-        }
+        if (!value) return;
+        return <li key={index}>{value}</li>
     })
 
     return (
