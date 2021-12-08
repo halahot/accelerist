@@ -9,7 +9,7 @@ export interface IFavoritesListProps {
 
 export function FavoritesList({ favorites }: IFavoritesListProps) {
 
-    const elements = favorites?.map((item) => <FavoritesCard key={item.id} item={item} />)
+    const elements = favorites?.slice(0, 6).map((item) => <FavoritesCard key={item.id} item={item} />)
     return (
         <Content>
             {elements}

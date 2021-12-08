@@ -79,15 +79,3 @@ const Text = styled.div`
     margin-bottom: 32px;
     text-align: center;
 `
-
-// const Button = styled.button`
-//     width: 100%;
-//     border-radius: 6px;
-//     border: 1px solid rgb(43, 174, 224);
-//     transition: all 0.2s ease 0s;
-//     padding: 10px 0px;
-//     color: #122434;
-//     background: rgb(255, 255, 255);
-//     font-size: 12px;
-//     line-height: 150%;
-// `

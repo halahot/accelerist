@@ -1,5 +1,4 @@
 import React from 'react'
-// import { RouteComponentProps } from 'react-router-dom'
 import styled from 'styled-components'
 import { Tabs } from '../Tabs'
 
