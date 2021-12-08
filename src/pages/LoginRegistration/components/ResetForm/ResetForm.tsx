@@ -1,17 +1,22 @@
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import { Button } from '../../../../common/components/Button';
-
-interface FormData {
-    email: string;
-}
+import _ from 'lodash';
+import { AuthSignData } from '../../../../types';
+import { useDispatch } from 'react-redux';
+import { changePass } from '../../../../state/ducks/auth';
 
 const ResetForm = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors, isDirty } } = useForm<AuthSignData>();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const onSubmit: SubmitHandler<FormData> = data => console.log(data);
+    const onSubmit: SubmitHandler<AuthSignData> = async data => {
+        await dispatch(changePass(data));
+        navigate('/login');
+    };
 
     return (
         <>
@@ -21,10 +26,14 @@ const ResetForm = () => {
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className="input">
                         <Label>Email</Label>
-                        <input placeholder="Enter email" {...register("email", { required: true })} />
+                        <input placeholder="Enter email" {...register("email", {
+                            required: true,
+                            pattern: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        })} />
                         {errors.email && <span className="error">This field is required</span>}
                     </div>
-                    <Button label="Reset" />
+                    {console.log(errors)}
+                    <Button label="Reset" disabled={!_.isEmpty(errors)} />
                 </form>
             </Container>
             <LoginLink to="/login">Return to Login</LoginLink>

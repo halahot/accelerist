@@ -18,19 +18,25 @@ export function SearchInput({ showFilter, setFilter }: ISearchInputProps) {
     const [value, setValue] = useState('')
 
     const onSubmit = () => {
-        if (value.trim()) {
-            const filter = {
-                q: value,
-                limit: 12,
-                page: 1,
-            }
-            setFilter(filter);
+        if (value.trim()) search();
+    }
+
+    const search = () => {
+        const filter = {
+            q: value,
+            limit: 12,
+            page: 1,
         }
+        setFilter(filter);
+    }
+
+    const onPress = (e: React.KeyboardEvent) => {
+        if (e.key === 'Enter') search();
     }
 
     return (
         <Container>
-            <Input placeholder="Search" value={value} onChange={(e: any) => setValue(e.target.value)} />
+            <Input onKeyPress={onPress} placeholder="Search" value={value} onChange={(e: any) => setValue(e.target.value)} />
             <Close onClick={() => setValue('')}>
                 <IconWrapper><CloseIcon /></IconWrapper>
             </Close>

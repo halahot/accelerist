@@ -81,7 +81,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
 
         await dispatch(createList(data));
         const path = `/prospects/${currentSearch?.id}`;
-        navigate(path);
+        navigate(path, { state: { isEdit: true } });
     }
 
     const exportToExcel = async () => {

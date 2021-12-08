@@ -40,5 +40,6 @@ const Container = styled.div`
         font-size: 12px;
         color: #bfbfbf;
         margin-top: 8px;
+        margin-bottom: 30px;
     }
 `

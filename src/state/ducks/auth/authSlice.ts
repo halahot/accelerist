@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AuthSignData } from "../../../types";
 import { UserModel } from "../../../types/models";
-import { signInAPI, signUpAPI } from "./api";
+import { changePassAPI, signInAPI, signUpAPI } from "./api";
 
 interface State {
     token: string | null;
@@ -25,6 +25,14 @@ export const signIn = createAsyncThunk(
     'auth/signIn',
     async (data: AuthSignData) => {
         const request = await signInAPI(data);
+        return request.data;
+    }
+)
+
+export const changePass = createAsyncThunk(
+    'auth/changePass',
+    async (data: AuthSignData) => {
+        const request = await changePassAPI(data);
         return request.data;
     }
 )

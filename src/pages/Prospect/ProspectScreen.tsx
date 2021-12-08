@@ -14,15 +14,17 @@ interface Props {
 }
 
 const ProspectScreen = (props: Props) => {
+    const { state } = useLocation();
     const token = useSelector(getToken);
     const companyList = useSelector(companies);
     const list = useSelector(getActiveList);
     const excelData = useSelector(excel);
     const dispatch = useDispatch();
-    const [isEditMode, setIsEditMode] = useState(false)
+    const [isEditMode, setIsEditMode] = useState(state.isEdit)
     const [value, setValue] = useState(list?.name)
     const [filters, updateFilter] = useState(list?.filters)
 
+    
     let query = useLocation();
     const id = useMemo(() => {
         const parts = query.pathname.split('/');

@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react'
 import { SubmitHandler } from 'react-hook-form';
 import { useForm } from "react-hook-form";
@@ -41,7 +42,7 @@ export const Inputs = ({ isLogin }: Props) => {
                     {errors.password && <span className="error">This field is required</span>}
                 </div>
                 {isLogin ? <LoginFooter /> : <RegistrationFooter />}
-                <Button label={isLogin ? 'Login' : 'Registration'} />
+                <Button label={isLogin ? 'Login' : 'Registration'} disabled={!_.isEmpty(errors)}/>
             </form>
         </Container>
     )
@@ -89,6 +90,12 @@ const Container = styled.div`
         transition: all 0.2s ease 0s;
         padding: 10px 0px;
         font-weight: 500;
+    }
+
+    @media (max-width: 375px) {
+        form {
+            margin-top: 42px
+        }
     }
 `
     const Label = styled.label`

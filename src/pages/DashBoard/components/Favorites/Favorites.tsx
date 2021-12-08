@@ -25,14 +25,14 @@ export default function Favorites(props: IFavoritesProps) {
 
         dispatch(fetchFavorites(data))
     }, [])
-  
+  console.log(favorites);
   return (
     <Container>
       <Row style={{ justifyContent: 'space-between', height: '60px' }}>
-        <Title>Prospecting Sessions</Title>
+        <Title>Favorites</Title>
         <Link to="/favorites"><SeeMore /></Link>
       </Row>
-      {favorites ? <FavoritesList favorites={favorites} /> : <NoFavorites />}
+      {favorites.length > 0 ? <FavoritesList favorites={favorites} /> : <NoFavorites />}
     </Container>
   );
 }

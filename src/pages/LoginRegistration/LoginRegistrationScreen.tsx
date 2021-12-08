@@ -17,7 +17,7 @@ export const LoginRegistrationScreen = (props: Props) => {
         <Container>
             {isAuthorizedUser && <Navigate to="/" />}
             <header>
-                <Logo />
+                <div><Logo /></div>
             </header>
             <Content>
                 <WrapForm/>
@@ -50,4 +50,8 @@ const Content = styled.div`
     background-image: url(${img});
     background-size: cover;
     background-position: 100% 100%;
+
+    @media (max-width: 375px) {
+        padding: 20px 16px;
+    }
 `

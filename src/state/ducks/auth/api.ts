@@ -15,3 +15,10 @@ export const signUpAPI = async(data: AuthSignData) => {
         data
     );
 }
+
+export const changePassAPI = async(data: AuthSignData) => {
+    return await API.post(
+        '/api/v1/auth/change_password/send_mail',
+        data
+    );
+}

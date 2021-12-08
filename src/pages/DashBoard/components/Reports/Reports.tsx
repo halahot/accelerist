@@ -10,7 +10,9 @@ export interface IReportsProps {
 export default function Reports(props: IReportsProps) {
   return (
     <Container>
-      <Title>Reports</Title>
+      <div className="title">
+        <Title>Reports</Title>
+      </div>
       <Column>
         <Row>
           <Card>
@@ -30,11 +32,11 @@ export default function Reports(props: IReportsProps) {
         </Row>
         <span className="bold">Top matched</span>
         <Row>
-            <img width="83px" height="83px" src={samsung}/>
-            <img width="83px" height="83px" src={nasa}/>
+          <img width="83px" height="83px" src={samsung} />
+          <img width="83px" height="83px" src={nasa} />
         </Row>
         <span className="bold">Last Login</span>
-        <LoginTable/>
+        <LoginTable />
       </Column>
     </Container>
   );
@@ -44,6 +46,11 @@ export default function Reports(props: IReportsProps) {
 const Container = styled.section`
     display: flex;
     flex-direction: column;
+
+    div.title {
+      justify-content: space-between;
+      height: 60px;
+    }
 
     & span.bold {
         font-size: 24px;

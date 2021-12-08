@@ -22,7 +22,7 @@ export function LikeModal({visible, title, close}: ILikeModalProps) {
                 <Bottom>
                     <Title>{`${title} has been added to favorites`}</Title>
                     <Text>You can see the list of favorites on the dashboard page</Text>
-                    <Button action={close} label="Done" />
+                    <Button action={close} label="Done" disabled={false}/>
                 </Bottom>
             </Container>
         </Popup>

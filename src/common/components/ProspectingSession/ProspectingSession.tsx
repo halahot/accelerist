@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Tags } from '..';
 import { SavedListModel } from '../../../types/models';
 import moment from 'moment';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { getList } from '../../../state/ducks/savedList';
@@ -13,12 +13,12 @@ export interface IProspectingSessionProps {
 }
 
 export default function ProspectingSession({ item }: IProspectingSessionProps) {
-    const { name, filters, prospectsAvailable, updateAt } = item;
-    
+    const { name, filters, id, prospectsAvailable, updateAt } = item;
+
     let formattedDate = (moment(updateAt)).format('DD MMM YYYY')
     return (
         <Container>
-            <h4>{name ? name : 'No name'}</h4>
+            <Link to={`/prospects/${id}`}><h4>{name ? name : 'No name'}</h4></Link>
             <Line />
             <Tags filter={filters} />
             <Row style={{ justifyContent: "space-between" }}>
@@ -53,8 +53,11 @@ const Container = styled.section`
     height: 312px;
     background-color: #fff;
     padding: 24px;
-    margin: 12px;
     border-radius: 6px;
+
+    a {
+        color: #122434;
+    }
 
 `
 

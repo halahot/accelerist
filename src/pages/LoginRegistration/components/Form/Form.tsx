@@ -29,4 +29,9 @@ const Container = styled.div`
         line-height: 148%;
         margin-bottom: 20px;
     }
+
+    @media (max-width: 375px) {
+        max-width: 343px;
+        padding: 20px 16px;
+    }
 `
