@@ -6,11 +6,13 @@ import { changePassAPI, signInAPI, signUpAPI } from "./api";
 interface State {
     token: string | null;
     user: UserModel | null;
+    err: boolean;
 }
 
 const initialState: State = {
     token: null,
     user: null,
+    err: false,
 };
 
 export const signUp = createAsyncThunk(
@@ -46,12 +48,22 @@ const authSlice = createSlice({
             const { accessToken, user } = action.payload;
             state.token = accessToken;
             state.user = user;
+            state.err = false;
+        })
+        
+        builder.addCase(signUp.rejected, (state, action) => {
+            state.err = true;
+        })
+        
+        builder.addCase(signIn.rejected, (state, action) => {
+            state.err = true;
         })
         
         builder.addCase(signIn.fulfilled, (state, action) => {
             const { accessToken, user } = action.payload;
             state.token = accessToken;
             state.user = user;
+            state.err = false;
         })
     }
 });

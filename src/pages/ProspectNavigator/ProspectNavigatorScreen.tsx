@@ -156,4 +156,5 @@ const Area = styled.div`
     flex-wrap: wrap;
     align-content: flex-start;
     margin: -12px -12px 0px;
+    gap: 12px;
 `
