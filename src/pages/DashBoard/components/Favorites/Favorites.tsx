@@ -25,7 +25,6 @@ export default function Favorites(props: IFavoritesProps) {
 
         dispatch(fetchFavorites(data))
     }, [])
-  console.log(favorites);
   return (
     <Container>
       <Row style={{ justifyContent: 'space-between', height: '60px' }}>

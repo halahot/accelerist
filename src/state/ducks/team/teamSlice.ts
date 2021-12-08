@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AuthSignData } from "../../../types";
+import { LastLoginResponse } from "../../../types/LastLoginResponse";
 import { UserModel } from "../../../types/models";
 import { lastLoginAPI } from "./api";
 
 interface State {
-    lastLogin: string | null;
+    lastLogin: LastLoginResponse[];
 }
 
 const initialState: State = {
-    lastLogin: null,
+    lastLogin: [],
 };
 
 export const getLastLogin = createAsyncThunk(
@@ -25,8 +26,6 @@ const teamSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getLastLogin.fulfilled, (state, action) => {
-            const items = action.payload;
-            // items.map()
             state.lastLogin = action.payload;
         })
     }

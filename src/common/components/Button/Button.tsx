@@ -9,7 +9,6 @@ interface Props {
 }
 
 export const Button = ({ color = "#2BAEE0", disabled = true, label, action }: Props) => {
-    console.log(disabled);
     return (
         <Btn type="submit" color={color} disabled={disabled} onClick={action}>
             {label}

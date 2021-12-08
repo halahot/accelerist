@@ -5,6 +5,6 @@ import API from '../../axios';
 export const lastLoginAPI = async(token: string) => {
     API.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
     return await API.get(
-        '/api/v1/auth/sign_in'
+        '/api/v1/team/last_logins'
     );
 }

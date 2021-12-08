@@ -14,7 +14,6 @@ export interface IReportsProps {
 export default function Reports(props: IReportsProps) {
   const dispatch = useDispatch();
   const token = useSelector(getToken);
-  const lastLogins = useSelector(getLastLogins);
 
   useEffect(() => {
     if (token) dispatch(getLastLogin(token));

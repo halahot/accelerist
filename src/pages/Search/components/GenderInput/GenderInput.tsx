@@ -20,7 +20,6 @@ const items = [
 ]
 
 export function GenderInput({ value, onChange }: IGenderInputProps) {
-    console.log('render');
 
     const [v, setValue] = useState(items);
 
@@ -30,10 +29,7 @@ export function GenderInput({ value, onChange }: IGenderInputProps) {
     }, [v])
 
     const setActive = (id: number) => {
-        console.log(id);
-        // const arr = it
         items.forEach(v => v.isActive = false)
-        console.log(items);
         items[id].isActive = true;
         setValue(items);
     }

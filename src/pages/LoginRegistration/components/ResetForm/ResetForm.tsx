@@ -32,7 +32,6 @@ const ResetForm = () => {
                         })} />
                         {errors.email && <span className="error">This field is required</span>}
                     </div>
-                    {console.log(errors)}
                     <Button label="Reset" disabled={!_.isEmpty(errors)} />
                 </form>
             </Container>
