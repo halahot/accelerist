@@ -108,4 +108,5 @@ const Column = styled.div`
     width: 536px;
     height: 498px;
     padding: 24px;
+    border-radius: 6px;
 `

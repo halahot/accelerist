@@ -4,11 +4,13 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'
 import { companyReducer } from './ducks/company';
 import { savedSearchReducer } from './ducks/savedList';
+import { teamReducer } from './ducks/team';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   company: companyReducer,
   lists: savedSearchReducer,
+  team: teamReducer,
 });
 
 const customizedMiddleware = getDefaultMiddleware({
