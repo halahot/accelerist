@@ -28,13 +28,6 @@ const DashBoardScreen = (props: Props) => {
                             <Favorites />
                             <Reports />
                         </Row>
-                        {/* <Row>
-                            <span>Prospect Navigator</span>
-                            <SeeMore />
-                        </Row> */}
-                        {/* <Row>
-                            <Posts />
-                        </Row> */}
                     </div>
                 </main>
             </Content>

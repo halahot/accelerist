@@ -33,7 +33,6 @@ const FavoritesScreen = (props: Props) => {
             <Title><h1>Favorites</h1></Title>
             <Content>
                 <SearchResult companies={favorites} isFavorite={true} />
-                {/* {<NoFavorites />} */}
             </Content>
         </Container>
     )

@@ -57,7 +57,6 @@ const ProspectNavigatorScreen = (props: Props) => {
                     </div>
 
                     <Area>
-                        {/* { elements } */}
                         {render}
                     </Area>
                 </div>
