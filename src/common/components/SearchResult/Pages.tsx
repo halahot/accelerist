@@ -59,4 +59,8 @@ const Container = styled.div`
         background: 0px center;
         cursor: pointer;
     }
+
+    @media (max-width: 375px) {
+        display: none;
+    }
 `

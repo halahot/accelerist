@@ -41,64 +41,95 @@ export function Card(props: ICardProps) {
     }
 
     const onChange = (v: boolean) => {
-        if(props.setIsDelete) props.setIsDelete(v, id);
+        if (props.setIsDelete) props.setIsDelete(v, id);
     }
 
     return (
-        <Container>
-            {props.isEdit && <CheckBox style={style} onChange={onChange}/>}
-            <Left>
-                <ImageWrap>
-                    <IconWrapper>
-                        <NoImage />
-                    </IconWrapper>
-                </ImageWrap>
-                <Text>
-                    <p className="Priority">Priority Ranking</p>
-                    <p className="digit">4</p>
-                </Text>
-            </Left>
-            <Right>
-                <Information>
-                    <OrganizationLink to={`/company/${id}`}>{name}</OrganizationLink>
-                    <Address>{`${street ? street : ''} 
+        <Content>
+            <Container>
+                {props.isEdit && <CheckBox style={style} onChange={onChange} />}
+                <Left>
+                    <ImageWrap>
+                        <IconWrapper>
+                            <NoImage />
+                        </IconWrapper>
+                    </ImageWrap>
+                    <Text>
+                        <p className="Priority">Priority Ranking</p>
+                        <p className="digit">4</p>
+                    </Text>
+                </Left>
+                <Right>
+                    <Information>
+                        <OrganizationLink to={`/company/${id}`}>{name}</OrganizationLink>
+                        <Address>{`${street ? street : ''} 
                     ${city ? city : ''} 
                     ${state ? state : ''} 
                     ${country ? country : ''} 
                     ${zipCode ? zipCode : ''}`}</Address>
-                    <Phone>{phone}</Phone>
-                </Information>
-                <Revenue>
-                    <CsrFocus>
-                        <GrayText style={{ textAlign: 'left' }}>CSR Focus</GrayText>
-                        <div><p>No Information</p></div>
-                    </CsrFocus>
-                    <RevenueInfo>
-                        <GrayText>Revenue</GrayText>
-                        <Bold>{`$${revenue}`}</Bold>
-                    </RevenueInfo>
-                </Revenue>
-                <Buttons>
-                    <Like onClick={addToFavorite}>
-                        <IconWrapper>{like ? <RedLike /> : <LikeIcon />}</IconWrapper>
-                    </Like>
-                    <ProfileBtn>Profile</ProfileBtn>
-                </Buttons>
-            </Right>
+                        <Phone>{phone}</Phone>
+                    </Information>
+                    <Revenue>
+                        <CsrFocus>
+                            <GrayText style={{ textAlign: 'left' }}>CSR Focus</GrayText>
+                            <div><p>No Information</p></div>
+                        </CsrFocus>
+                        <RevenueInfo>
+                            <GrayText>Revenue</GrayText>
+                            <Bold>{`$${revenue}`}</Bold>
+                        </RevenueInfo>
+                    </Revenue>
+                    <Buttons>
+                        <Like onClick={addToFavorite}>
+                            <IconWrapper>{like ? <RedLike /> : <LikeIcon />}</IconWrapper>
+                        </Like>
+                        <ProfileBtn>Profile</ProfileBtn>
+                    </Buttons>
+                </Right>
+            </Container>
+            <div className="buttons-medium">
+                <Like onClick={addToFavorite}>
+                    <IconWrapper>{like ? <RedLike /> : <LikeIcon />}</IconWrapper>
+                </Like>
+                <ProfileBtn>Profile</ProfileBtn>
+            </div>
             <LikeModal visible={visibleModal} close={onClose} title={name} />
-        </Container>
+        </Content>
     );
 }
 
 const Container = styled.section`
+    display: flex;
+    position: relative;
+
+`
+
+const Content = styled.div`
+    display: flex;
+    flex-direction: column;
+
     width: 536px;
     min-height: 268px;
     background: rgb(255, 255, 255);
     border-radius: 6px;
     margin: 12px;
     padding: 26px 32px;
-    display: flex;
-    position: relative;
+
+    @media (max-width: 768px) {
+        width: 340px;
+        padding: 24px 16px;
+
+            div.buttons-medium {
+                display: flex;
+                flex-direction: row;
+            }
+    }
+    @media (min-width: 800px) {
+        div.buttons-medium {
+            display: none;
+        }
+    }
+        
 `
 
 const Left = styled.div`
@@ -108,6 +139,11 @@ const Left = styled.div`
     width: 168px;
     height: 216px;
     margin-right: 16px;
+
+    @media (max-width: 768px) {
+        width: 124px;
+        height: 184px;
+    }
 `
 
 const Right = styled.div`
@@ -121,6 +157,11 @@ const ImageWrap = styled.div`
     justify-content: center;
     align-items: center;
     border-bottom: 1px solid rgb(232, 232, 232);
+
+    @media (max-width: 768px) {
+        min-width: 80px;
+        height: 109px;
+    }
 `
 
 const Text = styled.div`
@@ -144,6 +185,10 @@ const Text = styled.div`
 
 const Information = styled.div`
     min-height: 100px;
+    
+    @media (max-width: 768px) {
+        width: 214px;
+    }
 `
 const OrganizationLink = styled(Link)`
     display: block;
@@ -181,6 +226,11 @@ const Revenue = styled.div`
     border-bottom: 1px solid rgb(232, 232, 232);
     margin-bottom: 24px;
     width: 100%;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        border: none;
+    }
 `
 
 const CsrFocus = styled.div`
@@ -198,6 +248,11 @@ const CsrFocus = styled.div`
         font-size: 12px;
         line-height: 150%;
         color: #122434;
+    }
+
+    @media (max-width: 768px) {
+        border: none;
+        padding: 0;
     }
 `
 
@@ -222,10 +277,22 @@ const Bold = styled.p`
 const RevenueInfo = styled.div`
     padding: 0px 0px 12px 20px;
     width: 100%;
+
+    @media (max-width: 768px) {
+        padding: 0;
+        
+        p {
+            text-align: left;
+        }
+    }
 `
 const Buttons = styled.div`
     display: flex;
     align-items: center;
+
+    @media (max-width: 768px) {
+        display: none;
+    }
 `
 const ProfileBtn = styled.a`
     flex: 1 1 0%;

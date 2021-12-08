@@ -33,6 +33,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
     const currentSearch = useSelector(getActiveList)
     const [page, setPage] = useState<number>(currentPage);
     const [ids, setIds] = useState(list?.filters.deleteIds);
+    const [width, setWidth] = useState(0)
     const count = useSelector(getCount);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -84,7 +85,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
     }
 
     const exportToExcel = async () => {
-        if((isSavedSearch || isFilter) && excel) {
+        if ((isSavedSearch || isFilter) && excel) {
             excel();
             return;
         }
@@ -93,6 +94,20 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
             return;
         }
     }
+
+    useEffect(() => {
+        function handleResize() {
+            setWidth(window.innerWidth)
+        }
+
+        window.addEventListener("resize", handleResize)
+
+        handleResize()
+
+        return () => {
+            window.removeEventListener("resize", handleResize)
+        }
+    }, [setWidth])
 
     // const sendToSupport = () => {
 
@@ -137,7 +152,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                                 <SaveIcon />
                             </IconWrapper>
                         </Icon>
-                        Save List
+                        {width < 400 ? 'Save' : 'Save List'}
                     </Button>}
                         <Button onClick={exportToExcel}>
                             <Icon>
@@ -145,7 +160,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                                     <ExcelIcon />
                                 </IconWrapper>
                             </Icon>
-                            Export to Excel
+                            {width < 400 ? 'Excel' : 'Export to Excel'}
                         </Button></>}
                     {!isSavedSearch && <Button>
                         <Icon>
@@ -153,7 +168,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                                 <MailIcon />
                             </IconWrapper>
                         </Icon>
-                        Accelerist Support
+                        {width < 400 ? 'Support' : 'Accelerist Support'}
                     </Button>}
                     {ids && ids.length > 0 && <Button>
                         <Icon>
@@ -181,6 +196,14 @@ const Container = styled.div`
 
     & button {
         cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+        padding: 32px;
+    }
+    
+    @media (max-width: 375px) {
+        padding: 16px;
     }
 `
 

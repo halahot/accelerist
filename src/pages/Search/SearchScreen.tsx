@@ -65,6 +65,16 @@ const Header = styled.div`
     margin: 0px auto;
     background: rgb(255, 255, 255);
     height: 96px;
+
+    @media (max-width: 768px) {
+        padding: 0px 32px;
+    }
+    
+    @media (max-width: 375px) {
+        padding: 0px 16px;
+        flex-direction: column;
+        align-items: start;
+    }
 `
 const Search = styled.h1`
     font-weight: 500;
@@ -72,4 +82,8 @@ const Search = styled.h1`
     line-height: 150%;
     color: #122434;
     margin-right: 80px;
+
+    @media (max-width: 768px) {
+        margin-right: 32px;
+    }
 `
