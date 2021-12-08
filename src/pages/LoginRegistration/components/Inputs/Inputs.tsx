@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Button } from '../../../../common/components/Button';
-import { isError, signIn, signUp } from '../../../../state/ducks/auth';
+import { isError, resetError, signIn, signUp } from '../../../../state/ducks/auth';
 import { LoginFooter } from '../LoginFooter';
 import { RegistrationFooter } from '../RegistrationFooter';
 
@@ -20,10 +20,9 @@ type FormData = {
 };
 
 export const Inputs = ({ isLogin }: Props) => {
-    const { register, handleSubmit, formState: { errors, isSubmitted } } = useForm<FormData>();
+    const { register, handleSubmit, formState: { errors, isDirty, isSubmitting } } = useForm<FormData>();
     const dispatch = useDispatch();
-    const Error = useSelector(isError);
-    const [shownError, setShownError] = useState(false);
+    const error = useSelector(isError);
 
     const onSubmit: SubmitHandler<FormData> = data => {
         const func = isLogin ? signIn : signUp;
@@ -32,11 +31,10 @@ export const Inputs = ({ isLogin }: Props) => {
 
     useEffect(() => {
 
-        if (Error)  {
-            setShownError(true);
-            setTimeout(() => setShownError(false), 4000);
+        if (error)  {
+            setTimeout(() => dispatch(resetError(false)), 4000);
         }
-    }, [Error])
+    }, [error])
 
     return (
         <Container>
@@ -50,10 +48,10 @@ export const Inputs = ({ isLogin }: Props) => {
                     <Label>Password</Label>
                     <input placeholder="Enter password" {...register("password", { required: true })} />
                     {errors.password && <span className="error">This field is required</span>}
-                    {shownError && <span className="error">Incorrect password or email</span>}
+                    {error && <span className="error">Incorrect password or email</span>}
                 </div>
                 {isLogin ? <LoginFooter /> : <RegistrationFooter />}
-                <Button label={isLogin ? 'Login' : 'Registration'} disabled={!_.isEmpty(errors)} />
+                <Button label={isLogin ? 'Login' : 'Registration'} disabled={!_.isEmpty(errors) || isSubmitting} />
             </form>
         </Container>
     )

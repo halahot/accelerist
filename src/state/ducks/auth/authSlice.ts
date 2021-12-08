@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAction, createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AuthSignData } from "../../../types";
 import { UserModel } from "../../../types/models";
 import { changePassAPI, signInAPI, signUpAPI } from "./api";
@@ -42,7 +42,11 @@ export const changePass = createAsyncThunk(
 const authSlice = createSlice({
     name: 'auth',
     initialState: initialState,
-    reducers: {},
+    reducers: {
+        resetError(state, action) {
+            state.err = false
+        },
+    },
     extraReducers: (builder) => {
         builder.addCase(signUp.fulfilled, (state, action) => {
             const { accessToken, user } = action.payload;
@@ -50,15 +54,15 @@ const authSlice = createSlice({
             state.user = user;
             state.err = false;
         })
-        
+
         builder.addCase(signUp.rejected, (state, action) => {
             state.err = true;
         })
-        
+
         builder.addCase(signIn.rejected, (state, action) => {
             state.err = true;
         })
-        
+
         builder.addCase(signIn.fulfilled, (state, action) => {
             const { accessToken, user } = action.payload;
             state.token = accessToken;
@@ -67,5 +71,7 @@ const authSlice = createSlice({
         })
     }
 });
+
+export const { resetError } = authSlice.actions;
 
 export default authSlice.reducer;

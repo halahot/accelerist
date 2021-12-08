@@ -1,5 +1,5 @@
 import { isAuthorized, getToken, isError } from './selectors';
-import authReducer, { changePass, signIn, signUp } from './authSlice';
+import authReducer, { changePass, resetError, signIn, signUp } from './authSlice';
 
 export {
     authReducer,
@@ -8,5 +8,6 @@ export {
     isAuthorized,
     getToken,
     changePass,
-    isError
+    isError,
+    resetError
 };

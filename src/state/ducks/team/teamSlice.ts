@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { AuthSignData } from "../../../types";
 import { UserModel } from "../../../types/models";
-import { changePassAPI, signInAPI, signUpAPI } from "./api";
+import { lastLoginAPI } from "./api";
 
 interface State {
     lastLogin: string | null;
@@ -13,8 +13,8 @@ const initialState: State = {
 
 export const getLastLogin = createAsyncThunk(
     'team/lastLogin',
-    async (data: AuthSignData) => {
-        const request = await signUpAPI(data);
+    async (token: string) => {
+        const request = await lastLoginAPI(token);
         return request.data;
     }
 )
@@ -25,6 +25,8 @@ const teamSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getLastLogin.fulfilled, (state, action) => {
+            const items = action.payload;
+            // items.map()
             state.lastLogin = action.payload;
         })
     }

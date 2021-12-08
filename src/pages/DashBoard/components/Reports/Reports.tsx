@@ -3,11 +3,22 @@ import styled from 'styled-components';
 import samsung from '../../../../assets/samsung.png';
 import nasa from '../../../../assets/nasa.png';
 import { LoginTable } from '../LoginTable';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { getLastLogin, getLastLogins } from '../../../../state/ducks/team';
+import { getToken } from '../../../../state/ducks/auth';
 
 export interface IReportsProps {
 }
 
 export default function Reports(props: IReportsProps) {
+  const dispatch = useDispatch();
+  const token = useSelector(getToken);
+  const lastLogins = useSelector(getLastLogins);
+
+  useEffect(() => {
+    if (token) dispatch(getLastLogin(token));
+  }, [])
   return (
     <Container>
       <div className="title">
