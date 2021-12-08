@@ -46,8 +46,8 @@ export function Card(props: ICardProps) {
 
     return (
         <Content>
+            {props.isEdit && <CheckBox style={style} onChange={onChange} />}
             <Container>
-                {props.isEdit && <CheckBox style={style} onChange={onChange} />}
                 <Left>
                     <ImageWrap>
                         <IconWrapper>
@@ -99,14 +99,14 @@ export function Card(props: ICardProps) {
 }
 
 const Container = styled.section`
-    display: flex;
-    position: relative;
+    display: flex;   
 
 `
 
 const Content = styled.div`
     display: flex;
     flex-direction: column;
+    position: relative;
 
     width: 536px;
     min-height: 268px;

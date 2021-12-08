@@ -15,6 +15,7 @@ import { RedLike } from "./RedLike";
 import { SaveIcon } from "./SaveIcon";
 import { SearchIcon } from "./SearchIcon";
 import { SelectIcon } from "./SelectIcon";
+import { TrashIcon } from "./TrashIcon";
 
 export {
     SearchIcon,
@@ -33,5 +34,6 @@ export {
     MapIcon,
     PhoneIcon,
     GlobeIcon,
-    FolderPlusIcon
+    FolderPlusIcon,
+    TrashIcon,
 }

@@ -13,7 +13,7 @@ import { getCount } from '../../../state/ducks/company/selectors';
 import { createList, getActiveList } from '../../../state/ducks/savedList';
 import { FilterData, SavedListRequest } from '../../../types';
 import { CompanyModel } from '../../../types/models';
-import { ExcelIcon, MailIcon, SaveIcon } from '../../icons';
+import { ExcelIcon, MailIcon, SaveIcon, TrashIcon } from '../../icons';
 import { Pages } from './Pages';
 
 export interface ISearchResultProps {
@@ -113,6 +113,13 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
 
     // }
 
+    const onDeleteSelected = () => {
+        if(!ids || ids.length === 0) return;  
+        if (updateFilter) {
+            updateFilter(ids);
+        }
+    }
+
     const closeEmptyFilterModal = () => {
         setVisibleFilterModal(false);
     }
@@ -130,9 +137,6 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
         }
 
         setIds(newids);
-        if (updateFilter) {
-            updateFilter(newids);
-        }
     }
 
     const companyComponents = companies?.map((company) =>
@@ -170,10 +174,10 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                         </Icon>
                         {width < 400 ? 'Support' : 'Accelerist Support'}
                     </Button>}
-                    {ids && ids.length > 0 && <Button>
+                    {ids && ids.length > 0 && <Button onClick={onDeleteSelected}>
                         <Icon>
                             <IconWrapper>
-                                <MailIcon />
+                                <TrashIcon />
                             </IconWrapper>
                         </Icon>
                         Delete

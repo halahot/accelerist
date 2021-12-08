@@ -5,9 +5,9 @@ import { SearchResult } from '../../common/components';
 import withHeader from '../../common/hoc/withHeader'
 import { getToken } from '../../state/ducks/auth';
 import { companies, excel, getCompanies, getExcel } from '../../state/ducks/company';
-import { getActiveList, getListById, updateList } from '../../state/ducks/savedList';
+import { deleteList, getActiveList, getListById, updateList } from '../../state/ducks/savedList';
 import fileDownload from 'js-file-download';
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 interface Props {
 
@@ -23,6 +23,7 @@ const ProspectScreen = (props: Props) => {
     const [isEditMode, setIsEditMode] = useState(state?.isEdit)
     const [value, setValue] = useState(list?.name)
     const [filters, updateFilter] = useState(list?.filters)
+    const navigate = useNavigate();
 
 
     let query = useLocation();
@@ -30,6 +31,10 @@ const ProspectScreen = (props: Props) => {
         const parts = query.pathname.split('/');
         return parts[parts.length - 1];
     }, [query])
+
+    useEffect(() => {
+        if (list === null) navigate('/prospects')
+    }, [list])
 
     useEffect(() => {
         const params = {
@@ -43,7 +48,7 @@ const ProspectScreen = (props: Props) => {
         }
         dispatch(getCompanies(data))
         dispatch(getListById({ token, id }))
-    }, [])
+    }, [filters])
 
     const onClickFirstBtn = () => {
         if (isEditMode) {
@@ -66,7 +71,12 @@ const ProspectScreen = (props: Props) => {
         if (isEditMode) {
             setIsEditMode(false);
         } else {
-            console.log('delete');
+            const data = {
+                token,
+                id: list?.id
+            }
+            dispatch(deleteList(data))
+
         }
     }
 
@@ -84,17 +94,24 @@ const ProspectScreen = (props: Props) => {
         if (excelData) fileDownload(excelData.file, excelData.name);
     }
 
-    const update = (ids: string[]) => {
+    const update = (deleteIds: string[]) => {
 
         const newFilters = {
             ...filters,
-            ids
+            deleteIds
         };
 
         updateFilter(newFilters);
+        const data = {
+            token,
+            id: list?.id,
+            data: {
+                name: list?.name ? list?.name : 'No name',
+                filters: newFilters
+            }
+        }
+        dispatch(updateList(data));
     }
-
-    console.log(list);
 
     return (
         <>

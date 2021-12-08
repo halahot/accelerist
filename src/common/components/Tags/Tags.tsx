@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FilterData } from '../../../types';
 
@@ -8,9 +9,12 @@ export interface ITagsProps {
 
 export function Tags({ filter }: ITagsProps) {
 
-    const elements = filter && Object.values(filter).map((value, index) => {
-        if (!value) return;
-        return <li key={index}>{value}</li>
+    const elements = filter && Object.keys(filter).map((key) => {
+        
+        if (key === 'deleteIds') return;
+        
+        //@ts-ignore
+        return <li key={key}>{filter[key]}</li>
     })
 
     return (
