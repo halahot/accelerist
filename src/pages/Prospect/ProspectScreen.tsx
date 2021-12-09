@@ -1,13 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import styled from 'styled-components'
-import { SearchResult } from '../../common/components';
-import withHeader from '../../common/hoc/withHeader'
-import { getToken } from '../../state/ducks/auth';
-import { companies, excel, getCompanies, getExcel } from '../../state/ducks/company';
-import { deleteList, getActiveList, getListById, updateList } from '../../state/ducks/savedList';
 import fileDownload from 'js-file-download';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
+import styled from 'styled-components';
+import { SearchResult } from '../../common/components';
+import withHeader from '../../common/hoc/withHeader';
+import { getToken } from '../../state/ducks/auth';
+import { companies, excel, getCompanies, getExcel, getPageInfo } from '../../state/ducks/company';
+import { deleteList, getActiveList, getListById, updateList } from '../../state/ducks/savedList';
 
 interface Props {
 
@@ -19,12 +19,13 @@ const ProspectScreen = (props: Props) => {
     const companyList = useSelector(companies);
     const list = useSelector(getActiveList);
     const excelData = useSelector(excel);
+    const pageInfo = useSelector(getPageInfo);
     const dispatch = useDispatch();
     const [isEditMode, setIsEditMode] = useState(state?.isEdit)
     const [value, setValue] = useState(list?.name)
+    const [page, setPage] = useState(1);
     const [filters, updateFilter] = useState(list?.filters)
     const navigate = useNavigate();
-
 
     let query = useLocation();
     const id = useMemo(() => {
@@ -39,7 +40,7 @@ const ProspectScreen = (props: Props) => {
     useEffect(() => {
         const params = {
             limit: 12,
-            page: 1,
+            page: page,
             ...filters
         }
         const data = {
@@ -48,7 +49,7 @@ const ProspectScreen = (props: Props) => {
         }
         dispatch(getCompanies(data))
         dispatch(getListById({ token, id }))
-    }, [filters])
+    }, [filters, page])
 
     const onClickFirstBtn = () => {
         if (isEditMode) {
@@ -132,6 +133,8 @@ const ProspectScreen = (props: Props) => {
                 </div>
             </TitleContent>
             <Results><SearchResult
+                pageInfo={pageInfo}
+                setPage={setPage}
                 filter={list?.filters}
                 companies={companyList.company}
                 isEditMode={isEditMode}

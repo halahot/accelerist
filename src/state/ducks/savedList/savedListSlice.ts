@@ -13,7 +13,7 @@ interface State {
 
 const initialState: State = {
     lists: [],
-    meta: {currentPage: 0, totalItems: 0},
+    meta: {currentPage: 0, totalItems: 0, itemCount: 0},
     activeList: null,
 };
 

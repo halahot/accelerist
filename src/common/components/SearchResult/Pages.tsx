@@ -14,29 +14,26 @@ interface Props {
     setPage: (arg: number) => void;
 }
 
-export function Pages({ pageInfo: { currentPage, totalItems, totalPages }, setPage }: Props) {
+export function Pages({ pageInfo: { currentPage, totalItems, totalPages, itemCount }, setPage }: Props) {
 
     const pagePosition: PagePosition = useMemo(() => {
-        const start = currentPage * 12 - 11;
-        let end = currentPage * 12;
-        if (end > totalItems) {
-            end = totalItems;
-        }
+        const start = (+(currentPage) * 12) - 11;
+        let end = start + (+itemCount - 1);
         return {
             start,
             end
         }
-    }, [totalItems])
+    }, [currentPage, itemCount])
 
     return (
         <Container>
             {currentPage > 1 &&
-                <button onClick={() => setPage(currentPage - 1)}>
+                <button onClick={() => setPage(+currentPage - 1)}>
                     <IconWrapper style={{ marginRight: '18px', transform: 'rotate(180deg)' }}><ArrowIcon /></IconWrapper>
                 </button>}
             <p>{`${pagePosition.start}-${pagePosition.end} of ${totalItems}`}</p>
             {currentPage !== totalPages &&
-                <button onClick={() => setPage(currentPage + 1)}>
+                <button onClick={() => setPage(+currentPage + 1)}>
                     <IconWrapper style={{ marginLeft: '18px' }}><ArrowIcon /></IconWrapper>
                 </button>}
         </Container>

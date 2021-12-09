@@ -1,3 +1,4 @@
+import { unwrapResult } from '@reduxjs/toolkit';
 import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,10 +9,8 @@ import { EmptyFilterModal } from '../../../pages/Search/components/EmtyFilterMod
 import { NoFavComp } from '../../../pages/Search/components/NoFavComp';
 import { NoResults } from '../../../pages/Search/components/NoResults';
 import { getToken } from '../../../state/ducks/auth';
-import { fetchFavorites, getCompanies, getCurrentPage } from '../../../state/ducks/company';
-import { getCount } from '../../../state/ducks/company/selectors';
 import { createList, getActiveList } from '../../../state/ducks/savedList';
-import { FilterData, SavedListRequest } from '../../../types';
+import { FilterData, PageInfo, SavedListRequest } from '../../../types';
 import { CompanyModel } from '../../../types/models';
 import { ExcelIcon, MailIcon, SaveIcon, TrashIcon } from '../../icons';
 import { Pages } from './Pages';
@@ -24,43 +23,24 @@ export interface ISearchResultProps {
     companies: CompanyModel[];
     isEditMode?: boolean;
     updateFilter?: (ids: string[]) => void;
-    excel?: () => void;
+    excel?: () => void
+    pageInfo: PageInfo;
+    setPage: (v: number) => void;
 }
 
-export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch, isFavorite, isEditMode, updateFilter }: ISearchResultProps) {
-    const currentPage = useSelector(getCurrentPage);
+export function SearchResult({pageInfo, setPage, excel, filter, companies, isFilter, isSavedSearch, isFavorite, isEditMode, updateFilter }: ISearchResultProps) {
     const list = useSelector(getActiveList);
-    const currentSearch = useSelector(getActiveList)
-    const [page, setPage] = useState<number>(currentPage);
     const [ids, setIds] = useState(list?.filters?.deleteIds);
     const [width, setWidth] = useState(0)
-    const count = useSelector(getCount);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
-
     const [visibleFilterModal, setVisibleFilterModal] = useState(false);
     const token = useSelector(getToken);
 
-
-    useEffect(() => {
-
-        if (isSavedSearch) {
-            return;
-        }
-
-        const params = {
-            limit: 12,
-            page
-        }
-        const data = {
-            token,
-            params
-        }
-
-        const updateList = isFavorite ? fetchFavorites : getCompanies(data)
-        dispatch(updateList);
-    }, [page])
+    const gotosearch = (id: string) => {
+        const path = `/prospects/${id}`;
+        navigate(path, { state: { isEdit: true } });
+    }
 
     const saveList = async () => {
         if (!isFilter) {
@@ -74,14 +54,15 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
         const data: SavedListRequest = {
             token,
             data: {
-                prospectsAvailable: count,
+                prospectsAvailable: pageInfo?.totalItems,
                 filters: filter
             }
         }
 
-        await dispatch(createList(data));
-        const path = `/prospects/${currentSearch?.id}`;
-        navigate(path, { state: { isEdit: true } });
+        const actionResult = await dispatch(createList(data));
+        // @ts-ignore
+        const result = unwrapResult(actionResult);
+        gotosearch(result.id);
     }
 
     const exportToExcel = async () => {
@@ -108,10 +89,6 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
             window.removeEventListener("resize", handleResize)
         }
     }, [setWidth])
-
-    // const sendToSupport = () => {
-
-    // }
 
     const onDeleteSelected = () => {
         if(!ids || ids.length === 0) return;  
@@ -146,11 +123,11 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
 
     return (
         <Container>
-            {!isFavorite && <Title>{isSavedSearch ? `${count} companies` : `Found ${count} companies`}</Title>}
+            {!isFavorite && <Title>{isSavedSearch ? `${pageInfo?.totalItems} companies` : `Found ${pageInfo?.totalItems} companies`}</Title>}
             {isSavedSearch && <Tags filter={filter} />}
             <Actions>
                 {!isFavorite ? <Buttons>
-                    {count > 0 && <> {!isSavedSearch && <Button onClick={saveList}>
+                    {pageInfo.totalItems > 0 && <> {!isSavedSearch && <Button onClick={saveList}>
                         <Icon>
                             <IconWrapper>
                                 <SaveIcon />
@@ -182,8 +159,8 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                         </Icon>
                         Delete
                     </Button>}
-                </Buttons> : <Title>{`Found ${count} companies`}</Title>}
-                {count > 0 && <Pages page={page} setPage={setPage} />}
+                </Buttons> : <Title>{`Found ${pageInfo?.totalItems} companies`}</Title>}
+                {pageInfo?.totalItems > 0 && <Pages pageInfo={pageInfo} setPage={setPage}/>}
             </Actions>
             <Organizations>
                 {companyComponents?.length > 0 ? companyComponents : emtyContainer}

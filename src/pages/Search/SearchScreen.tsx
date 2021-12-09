@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
+import { SearchResult } from '../../common/components';
 import WithHeader from '../../common/hoc/withHeader';
 import { getToken } from '../../state/ducks/auth';
-import { companies, getCompanies } from '../../state/ducks/company';
+import { companies, getCompanies, getPageInfo } from '../../state/ducks/company';
 import { FilterData } from '../../types';
 import { Filter } from './components';
 import { SearchInput } from './components/SearchInput';
-import { SearchResult } from '../../common/components';
 
 interface Props {
 
@@ -15,18 +15,23 @@ interface Props {
 
 const SearchScreen = (props: Props) => {
     const loadCompanies = useSelector(companies);
+    const pageInfo = useSelector(getPageInfo);
     const dispatch = useDispatch();
     const token = useSelector(getToken);
     const [shownFilter, setShownFilter] = useState(false);
-    const [params, setParams] = useState<FilterData>({ limit: 12, page: loadCompanies.currentPage });
+    const [page, setPage] = useState(1);
+    const [params, setParams] = useState<FilterData>({ limit: 12 });
 
     useEffect(() => {
         const data = {
             token,
-            params
+            params : { 
+                ...params,
+                page
+            }
         }
         dispatch(getCompanies(data));
-    }, [params])
+    }, [params, page])
 
     return (
         <Container>
@@ -37,7 +42,7 @@ const SearchScreen = (props: Props) => {
                 </Header>
                 {shownFilter && <Filter closeFilter={() => setShownFilter(false)} setFilter={setParams} />}
             </Title>
-            <Content><SearchResult filter={params} companies={loadCompanies.company} isFilter={Object.keys(params).length > 2} /></Content>
+            <Content><SearchResult setPage={setPage} pageInfo={pageInfo} filter={params} companies={loadCompanies.company} isFilter={Object.keys(params).length > 2} /></Content>
         </Container>
     )
 }

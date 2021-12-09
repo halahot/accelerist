@@ -1,6 +1,6 @@
 export type PageInfo = {
     currentPage: number;
-    itemCount?: number;
+    itemCount: number;
     itemsPerPage?: number;
     totalItems: number;
     totalPages?: number;

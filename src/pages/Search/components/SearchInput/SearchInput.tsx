@@ -1,12 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { IconWrapper } from '../../../../common/components/IconWrapper/IconWrapper';
 import { SearchIcon } from '../../../../common/icons';
 import { CloseIcon } from '../../../../common/icons/CloseIcon';
 import { FilterIcon } from '../../../../common/icons/FilterIcon';
-import { getCurrentPage } from '../../../../state/ducks/company';
 import { FilterData } from '../../../../types';
 
 export interface ISearchInputProps {

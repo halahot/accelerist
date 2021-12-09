@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useLocation } from 'react-router'
+import { useLocation, useNavigate } from 'react-router'
 import styled from 'styled-components'
 import { IconWrapper } from '../../common/components'
 import withHeader from '../../common/hoc/withHeader'
@@ -18,6 +18,7 @@ const CompanyScreen = (props: Props) => {
     const dispatch = useDispatch();
     const token = useSelector(getToken);
     const company = useSelector(getCurrentCompany);
+    const navigate = useNavigate();
 
     let query = useLocation();
     const id = useMemo(() => {
@@ -42,11 +43,15 @@ const CompanyScreen = (props: Props) => {
         dispatch(getCompanyById({ token, id }))
     }
 
+    const goBack = () => {
+       navigate(-1);
+    }
+
     return (
         <>
             <Title>
                 <div>
-                    <button>
+                    <button onClick={goBack}>
                         <IconWrapper style={{ marginRight: '17px', transform: 'rotate(180deg)' }}><ArrowIcon /></IconWrapper>
                     </button>
                     <h1>Corporate Profile</h1>

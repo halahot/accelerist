@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { getCurrentPage } from '../../../../state/ducks/company';
 import { FilterData } from '../../../../types';
 import { GenderInput } from '../GenderInput';
 import { Input } from '../Input';

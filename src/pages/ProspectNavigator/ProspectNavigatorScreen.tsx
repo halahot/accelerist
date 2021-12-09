@@ -18,7 +18,7 @@ const ProspectNavigatorScreen = (props: Props) => {
     const pageInfo = useSelector(getPageInfo);
     const token = useSelector(getToken);
     const dispatch = useDispatch();
-    const [page, setPage] = useState(pageInfo?.currentPage);
+    const [page, setPage] = useState(1);
 
     const elements = prospectingSessions.map((item) =>
         <ProspectingSession key={item.id} item={item} />
@@ -32,12 +32,12 @@ const ProspectNavigatorScreen = (props: Props) => {
 
     useEffect(() => {
         const params = {
-            page: 1,
+            page,
             limit: 12,
             sort: sort ? sort : 'alphabet'
         }
         dispatch(getList({ token, params }))
-    }, [sort])
+    }, [sort, page])
 
 
     const render = prospectingSessions.length > 0 ? <>{elements}</> : <EmptyProspectingSessions />

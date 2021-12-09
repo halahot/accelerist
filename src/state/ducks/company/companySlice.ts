@@ -8,7 +8,7 @@ import { dislikeCompanyAPI, exportCompanyAPI, getCompanyAPI, getCompanyByIdAPI, 
 
 interface State {
     company: CompanyModel[];
-    pageInfo: PageInfo | null;
+    pageInfo: PageInfo;
     favorites: CompanyModel[];
     currentCompany: CompanyModel | null;
     excel?: ExcelResponse;
@@ -16,7 +16,7 @@ interface State {
 
 const initialState: State = {
     company: [],
-    pageInfo: null,
+    pageInfo: {currentPage: 0, totalItems: 0, itemCount: 0},
     favorites: [],
     currentCompany: null
 };

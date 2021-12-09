@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { NoFavorites, SearchResult } from '../../common/components';
-import withHeader from '../../common/hoc/withHeader'
+import { SearchResult } from '../../common/components';
+import withHeader from '../../common/hoc/withHeader';
 import { getToken } from '../../state/ducks/auth';
-import { fetchFavorites, getFavorites } from '../../state/ducks/company';
-import { FilterData } from '../../types';
+import { fetchFavorites, getFavorites, getPageInfo } from '../../state/ducks/company';
 import { CompanyModel } from '../../types/models';
 
 interface Props {
@@ -16,6 +15,7 @@ const FavoritesScreen = (props: Props) => {
     const favorites: CompanyModel[] = useSelector(getFavorites);
     const dispatch = useDispatch();
     const [page, setPage] = useState(1);
+    const pageInfo = useSelector(getPageInfo);
 
     const token = useSelector(getToken);
 
@@ -26,14 +26,18 @@ const FavoritesScreen = (props: Props) => {
         }
 
         dispatch(fetchFavorites(data))
-    }, [])
+    }, [page])
 
 
     return (
         <Container>
             <Title><h1>Favorites</h1></Title>
             <Content>
-                <SearchResult setPage={setPage} companies={favorites} isFavorite={true} />
+                <SearchResult
+                    pageInfo={pageInfo}
+                    setPage={setPage}
+                    companies={favorites}
+                    isFavorite={true} />
             </Content>
         </Container>
     )
