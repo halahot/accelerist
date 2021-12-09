@@ -15,13 +15,14 @@ interface Props {
 const FavoritesScreen = (props: Props) => {
     const favorites: CompanyModel[] = useSelector(getFavorites);
     const dispatch = useDispatch();
+    const [page, setPage] = useState(1);
 
     const token = useSelector(getToken);
 
     useEffect(() => {
         const data = {
             token,
-            params: { limit: 12, page: 1 }
+            params: { limit: 12, page: page }
         }
 
         dispatch(fetchFavorites(data))
@@ -32,7 +33,7 @@ const FavoritesScreen = (props: Props) => {
         <Container>
             <Title><h1>Favorites</h1></Title>
             <Content>
-                <SearchResult companies={favorites} isFavorite={true} />
+                <SearchResult setPage={setPage} companies={favorites} isFavorite={true} />
             </Content>
         </Container>
     )

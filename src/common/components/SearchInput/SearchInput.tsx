@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useNavigate } from 'react-router';
 import styled from 'styled-components';
 import { SearchIcon } from '../../icons/SearchIcon';
 
@@ -6,10 +7,11 @@ export interface ISearchInputProps {
 }
 
 export function SearchInput(props: ISearchInputProps) {
+    const navigate = useNavigate();
     return (
         <Container>
             <input placeholder="Search"/>
-            <div>
+            <div onClick={() => navigate('/search')}>
                 <SearchIcon />
             </div>
         </Container>

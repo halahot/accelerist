@@ -1,11 +1,11 @@
-import { companies, excel, getCurrentCompany, getCurrentPage, getFavorites } from './selectors';
+import { companies, excel, getCurrentCompany, getPageInfo, getFavorites } from './selectors';
 import companyReducer, { dislike, fetchFavorites, getCompanies, getCompanyById, getExcel, like } from './companySlice';
 
 export {
     companyReducer, 
     getCompanies, 
     companies, 
-    getCurrentPage,
+    getPageInfo,
     like,
     dislike,
     getFavorites,

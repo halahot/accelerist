@@ -1,11 +1,12 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { ProspectingSession } from '../../common/components';
+import { Pages } from '../../common/components/SearchResult/Pages';
 import withHeader from '../../common/hoc/withHeader';
 import { getToken } from '../../state/ducks/auth';
-import { getList, getLists } from '../../state/ducks/savedList';
+import { getList, getLists, getPageInfo } from '../../state/ducks/savedList';
 import { EmptyProspectingSessions } from '../DashBoard/components/EmptyProspectingSessions';
 
 interface Props {
@@ -14,8 +15,10 @@ interface Props {
 
 const ProspectNavigatorScreen = (props: Props) => {
     const prospectingSessions = useSelector(getLists);
+    const pageInfo = useSelector(getPageInfo);
     const token = useSelector(getToken);
     const dispatch = useDispatch();
+    const [page, setPage] = useState(pageInfo?.currentPage);
 
     const elements = prospectingSessions.map((item) =>
         <ProspectingSession key={item.id} item={item} />
@@ -31,10 +34,10 @@ const ProspectNavigatorScreen = (props: Props) => {
         const params = {
             page: 1,
             limit: 12,
-            sort
+            sort: sort ? sort : 'alphabet'
         }
         dispatch(getList({ token, params }))
-    }, [])
+    }, [sort])
 
 
     const render = prospectingSessions.length > 0 ? <>{elements}</> : <EmptyProspectingSessions />
@@ -54,6 +57,7 @@ const ProspectNavigatorScreen = (props: Props) => {
                                 <li><Link className={sort === 'last-activity' ? 'active' : ''} to="/prospects?sort=last-activity">Last Activity</Link></li>
                             </ul>
                         </div>
+                        <Pages pageInfo={pageInfo} setPage={setPage}/>
                     </div>
 
                     <Area>
@@ -99,6 +103,8 @@ const Content = styled.div`
         display: flex;
         margin-bottom: 23px;
         max-width: 1096px;
+        justify-content: space-between;
+        padding-right: 24px;
     }
 
     & div.subtitle ul {

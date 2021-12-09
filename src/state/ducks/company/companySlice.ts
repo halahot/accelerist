@@ -1,3 +1,4 @@
+import { PageInfo } from './../../../types/PageInfo';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { FilterPayload } from "../../../types";
 import { ExcelResponse } from "../../../types/ExcelResponse";
@@ -6,10 +7,8 @@ import { CompanyModel } from "../../../types/models";
 import { dislikeCompanyAPI, exportCompanyAPI, getCompanyAPI, getCompanyByIdAPI, getFavoritesAPI, likeCompanyAPI } from "./api";
 
 interface State {
-    company: CompanyModel[]
-    count: number;
-    currentPage: number;
-    maxPages: number;
+    company: CompanyModel[];
+    pageInfo: PageInfo | null;
     favorites: CompanyModel[];
     currentCompany: CompanyModel | null;
     excel?: ExcelResponse;
@@ -17,9 +16,7 @@ interface State {
 
 const initialState: State = {
     company: [],
-    count: 0,
-    currentPage: 0,
-    maxPages: 0,
+    pageInfo: null,
     favorites: [],
     currentCompany: null
 };
@@ -79,19 +76,14 @@ const companySlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getCompanies.fulfilled, (state, action) => {
-            const { items, meta } = action.payload;
-            state.company = items;
-            state.count = +meta.totalItems;
-            state.currentPage = +meta.currentPage;
-            state.maxPages = +meta.totalPages;
+            state.company = action.payload.items;
+            state.pageInfo = action.payload.meta;
         })
         
         builder.addCase(fetchFavorites.fulfilled, (state, action) => {
             const { items, meta } = action.payload;
             state.favorites = items;
-            state.count = meta.totalItems;
-            state.currentPage = meta.currentPage;
-            state.maxPages = meta.totalPages;
+            state.pageInfo = meta;
         })
 
         builder.addCase(like.fulfilled, (state, action) => {

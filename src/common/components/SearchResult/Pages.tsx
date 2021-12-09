@@ -1,9 +1,7 @@
 import { useMemo } from "react";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { IconWrapper } from "..";
-import { getCurrentPage } from "../../../state/ducks/company";
-import { getCount, getMaxPages } from "../../../state/ducks/company/selectors";
+import { PageInfo } from "../../../types";
 import { ArrowIcon } from "../../icons";
 
 type PagePosition = {
@@ -12,37 +10,33 @@ type PagePosition = {
 }
 
 interface Props {
-    page: number;
+    pageInfo: PageInfo;
     setPage: (arg: number) => void;
 }
 
-export function Pages({ page, setPage }: Props) {
-    const currentPage = useSelector(getCurrentPage);
-
-    const count = useSelector(getCount);
-    const maxPages = useSelector(getMaxPages);
+export function Pages({ pageInfo: { currentPage, totalItems, totalPages }, setPage }: Props) {
 
     const pagePosition: PagePosition = useMemo(() => {
         const start = currentPage * 12 - 11;
         let end = currentPage * 12;
-        if (end > count) {
-            end = count;
+        if (end > totalItems) {
+            end = totalItems;
         }
         return {
             start,
             end
         }
-    }, [count])
+    }, [totalItems])
 
     return (
         <Container>
-            {page > 1 &&
-                <button onClick={() => setPage(page - 1)}>
+            {currentPage > 1 &&
+                <button onClick={() => setPage(currentPage - 1)}>
                     <IconWrapper style={{ marginRight: '18px', transform: 'rotate(180deg)' }}><ArrowIcon /></IconWrapper>
                 </button>}
-            <p>{`${pagePosition.start}-${pagePosition.end} of ${count}`}</p>
-            {page !== maxPages &&
-                <button onClick={() => setPage(page + 1)}>
+            <p>{`${pagePosition.start}-${pagePosition.end} of ${totalItems}`}</p>
+            {currentPage !== totalPages &&
+                <button onClick={() => setPage(currentPage + 1)}>
                     <IconWrapper style={{ marginLeft: '18px' }}><ArrowIcon /></IconWrapper>
                 </button>}
         </Container>

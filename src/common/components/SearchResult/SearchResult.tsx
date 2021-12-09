@@ -8,7 +8,7 @@ import { EmptyFilterModal } from '../../../pages/Search/components/EmtyFilterMod
 import { NoFavComp } from '../../../pages/Search/components/NoFavComp';
 import { NoResults } from '../../../pages/Search/components/NoResults';
 import { getToken } from '../../../state/ducks/auth';
-import { fetchFavorites, getCompanies, getCurrentPage, getExcel } from '../../../state/ducks/company';
+import { fetchFavorites, getCompanies, getCurrentPage } from '../../../state/ducks/company';
 import { getCount } from '../../../state/ducks/company/selectors';
 import { createList, getActiveList } from '../../../state/ducks/savedList';
 import { FilterData, SavedListRequest } from '../../../types';
@@ -32,7 +32,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
     const list = useSelector(getActiveList);
     const currentSearch = useSelector(getActiveList)
     const [page, setPage] = useState<number>(currentPage);
-    const [ids, setIds] = useState(list?.filters.deleteIds);
+    const [ids, setIds] = useState(list?.filters?.deleteIds);
     const [width, setWidth] = useState(0)
     const count = useSelector(getCount);
     const dispatch = useDispatch();
@@ -174,7 +174,7 @@ export function SearchResult({ excel, filter, companies, isFilter, isSavedSearch
                         </Icon>
                         {width < 400 ? 'Support' : 'Accelerist Support'}
                     </Button>}
-                    {ids && ids.length > 0 && <Button onClick={onDeleteSelected}>
+                    {isSavedSearch &&  ids && ids.length > 0 && <Button onClick={onDeleteSelected}>
                         <Icon>
                             <IconWrapper>
                                 <TrashIcon />

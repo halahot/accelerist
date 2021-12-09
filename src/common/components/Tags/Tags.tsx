@@ -1,4 +1,5 @@
 import * as React from 'react';
+import {join} from 'lodash';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { FilterData } from '../../../types';
@@ -11,16 +12,22 @@ export function Tags({ filter }: ITagsProps) {
 
     const elements = filter && Object.keys(filter).map((key) => {
         
-        if (key === 'deleteIds') return;
-        
         //@ts-ignore
-        return <li key={key}>{filter[key]}</li>
+        const item = filter[key]
+
+        if (key === 'deleteIds' || item === '') return null;
+        
+        if (item instanceof Array) {
+            return <li key={key}>{join(item, ', ')}</li>;
+        }
+        
+        return <li key={key}>{item}</li>
     })
 
     return (
         <Container>
             <p>Filters</p>
-            <ul>{elements}</ul>
+            <div className="list">{elements}</div>
         </Container>
     );
 }
@@ -35,14 +42,20 @@ const Container = styled.section`
         margin-bottom: 8px;
     }
 
-    ul {
+    div.list {
+        display: flex;
+        align-items: center;
+        overflow-x: scroll;
+    }
+
+    div.list ul {
         display: flex;
         flex-wrap: wrap;
         margin: 0px 14px;
         list-style: none;
     }
 
-    li {
+    div.list li {
         border: 1px solid #CAF0FF;
         box-sizing: border-box;
         border-radius: 6px;
@@ -51,6 +64,10 @@ const Container = styled.section`
         line-height: 150%;
         color: #122434;
         padding: 6px 10px;
+        max-height: 30px;
+        min-width: 50px;
+        list-style: none;
+        overflow: hidden;
     }
 
     li:not(:last-child) {

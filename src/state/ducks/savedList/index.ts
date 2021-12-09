@@ -1,4 +1,4 @@
-import { getActiveList, getLists } from './selectors';
+import { getActiveList, getLists, getPageInfo } from './selectors';
 import savedSearchReducer, { createList, deleteList, getList, getListById, updateList } from './savedListSlice';
 
 export {
@@ -9,5 +9,6 @@ export {
     getLists,
     updateList,
     deleteList,
-    getListById
+    getListById,
+    getPageInfo,
 }

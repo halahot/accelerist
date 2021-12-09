@@ -33,6 +33,7 @@ export const getListByIdAPI = async (data: SavedListRequest) => {
 }
 
 export const getListAPI = async ({ token, params }: SavedListRequest) => {
+    console.log(params);
     API.defaults.headers.common = { 'Authorization': `Bearer ${token}` }
     return await API.get(
         '/api/v1/saved-list', { params }

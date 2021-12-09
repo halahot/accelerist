@@ -1,16 +1,20 @@
 import { SavedListModel } from '../../../types/models/SavedListModel';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SavedListRequest } from '../../../types';
+import { PageInfo, SavedListRequest } from '../../../types';
 import { createListAPI, deleteListAPI, getListAPI, getListByIdAPI, updateListAPI } from "./api";
 
 interface State {
     lists: SavedListModel[];
     activeList: SavedListModel | null;
+    meta: PageInfo;
 }
+
+
 
 const initialState: State = {
     lists: [],
-    activeList: null
+    meta: {currentPage: 0, totalItems: 0},
+    activeList: null,
 };
 
 export const createList = createAsyncThunk(
@@ -60,6 +64,7 @@ const savedListSlice = createSlice({
     extraReducers: (builder) => {
         builder.addCase(getList.fulfilled, (state, action) => {
             state.lists = action.payload.items;
+            state.meta = action.payload.meta;
         })
 
         builder.addCase(createList.fulfilled, (state, action) => {

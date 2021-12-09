@@ -20,7 +20,7 @@ export default function Favorites(props: IFavoritesProps) {
     React.useEffect(() => {
         const data = {
             token,
-            params: { limit: 12, page: 1 }
+            params: { limit: 6, page: 1 }
         }
 
         dispatch(fetchFavorites(data))
